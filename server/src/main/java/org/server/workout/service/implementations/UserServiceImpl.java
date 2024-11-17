@@ -1,6 +1,4 @@
 package org.server.workout.service.implementations;
-
-
 import org.server.workout.config.Authentication.AuthenticationResponse;
 import org.server.workout.dto.UserDto;
 import org.server.workout.entities.User;
@@ -9,16 +7,13 @@ import org.server.workout.helpers.UserMapping;
 import org.server.workout.repositories.UserRepository;
 import org.server.workout.service.interfaces.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-
 import lombok.extern.slf4j.Slf4j;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-
 
 @Service
 @RequiredArgsConstructor
