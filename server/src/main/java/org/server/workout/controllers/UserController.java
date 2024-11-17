@@ -31,7 +31,7 @@ public class UserController {
             return ResponseEntity.status(400).body("Error during registration: " + e.getMessage());
         }
     }
-    @PostMapping("/login")
+    @PostMapping("/signin")
     public ResponseEntity<?> login(@RequestBody UserDto userDto) {
         try {
             System.out.println("yes + " + userDto);

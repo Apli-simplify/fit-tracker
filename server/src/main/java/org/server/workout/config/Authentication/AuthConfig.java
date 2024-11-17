@@ -37,7 +37,7 @@ public class AuthConfig {
         return http.cors(cors -> cors.disable())
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(req ->
-                        req.requestMatchers("/api/users/signup","/api/users/login")
+                        req.requestMatchers("/api/users/signup","/api/users/signin")
                                 .permitAll()
                                 .requestMatchers("/api/admin/**").hasRole("ADMIN")
                                 .requestMatchers("/api/client/**").hasRole("CLIENT")

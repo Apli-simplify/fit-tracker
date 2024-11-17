@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/client")
 public class ClientController {
     @GetMapping("/dashboard")
-    public ResponseEntity<String> getAdminDashboard() {
+    public ResponseEntity<String> getClientDashboard() {
         System.out.println("client Dashboard accessed.");
         return ResponseEntity.ok("client Dashboard");
     }
