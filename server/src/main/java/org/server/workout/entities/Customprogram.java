@@ -18,5 +18,5 @@ public class Customprogram extends Program {
 
     @ManyToOne
     @JoinColumn(name = "client_id")
-    private Client client;
+    private Athlete athlete;
 }

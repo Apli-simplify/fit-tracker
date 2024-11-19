@@ -22,5 +22,5 @@ public class Recommendation {
     private String sleepAdvice;
     @ManyToOne
     @JoinColumn(name = "client_id", referencedColumnName = "id", nullable = false)
-    private Client client;
+    private Athlete athlete;
 }
