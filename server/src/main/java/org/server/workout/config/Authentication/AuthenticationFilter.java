@@ -32,7 +32,7 @@ public class AuthenticationFilter extends OncePerRequestFilter{
             @NonNull HttpServletResponse response,
             @NonNull FilterChain filterChain
     ) throws ServletException, IOException {
-        if (request.getRequestURI().contains("/api/users/signup") || request.getRequestURI().contains("/api/users/signin")) {
+        if (request.getRequestURI().contains("/api/users/signup") || request.getRequestURI().contains("/api/users/signin") || request.getRequestURI().contains("/api/athlete/signup")) {
             System.out.println("yes hh");
             filterChain.doFilter(request, response);  // Proceed without checking for JWT
             return;
