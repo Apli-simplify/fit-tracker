@@ -6,7 +6,6 @@ import 'package:client_flutter/services/api_services.dart';
 import 'package:client_flutter/views/SignIn/login_view.dart';
 import 'package:client_flutter/views/signUp/complete_profile.dart';
 import 'package:flutter/material.dart';
-// Import the User class
 
 class SignUpView extends StatefulWidget {
   final ApiService apiService = ApiService(baseUrl: ApiConfig.baseUrl);
@@ -21,8 +20,8 @@ class _SignUpViewState extends State<SignUpView> {
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-  final List<String> list = <String>['Client', 'Trainer'];
-  String dropdownValue = 'Client';
+  final List<String> list = <String>['Athlete', 'Trainer'];
+  String dropdownValue = 'Athlete';
 
   bool isCheck = false;
   void continueRegistration() async {
@@ -34,15 +33,25 @@ class _SignUpViewState extends State<SignUpView> {
       );
       return;
     }
+    Map<String, String> data = {
+      "name": _nameController.text,
+      "email": _emailController.text,
+      "password": _passwordController.text,
+    };
     print(dropdownValue);
-    final response = await widget.apiService.signup(
-        _emailController.text, _nameController.text, _passwordController.text);
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => const CompleteProfileView(),
-      ),
-    );
+    if (dropdownValue == "Trainer") {
+      data["isAthlete"] = "false";
+      final response = await widget.apiService.signup(data);
+      print(response);
+    } else {
+      data["isAthlete"] = "true";
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => CompleteProfileView(data: data),
+        ),
+      );
+    }
   }
 
   @override

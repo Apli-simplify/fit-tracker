@@ -26,24 +26,47 @@ class ApiService {
   }
 
   // Signup
-  Future<Map<String, dynamic>> signup(
-      String email, String username, String password) async {
-    final url = Uri.parse('$baseUrl${ApiConfig.signupEndpoint}');
-    final response = await http.post(
-      url,
-      headers: {'Content-Type': 'application/json'},
-      body: jsonEncode({
-        'email': email,
-        'name': username,
-        'password': password,
-        'role': "ROLE_USER"
-      }),
+  Future<Map<String, dynamic>> signup(Map<String, String> data) async {
+    final url = Uri.parse(
+      '$baseUrl${data["isAthlete"] == "true" ? ApiConfig.signupEndpointAthletes : ApiConfig.signupEndpointTrainers}',
     );
 
-    if (response.statusCode == 201) {
-      return jsonDecode(response.body);
+    if (data["isAthlete"] == "false") {
+      // Trainer signup
+      final response = await http.post(
+        url,
+        headers: {'Content-Type': 'application/json'},
+        body: jsonEncode({
+          'email': data["email"],
+          'name': data["username"],
+          'password': data["password"],
+          'role': "ROLE_TRAINER",
+        }),
+      );
+      if (response.statusCode == 201) {
+        return jsonDecode(response.body);
+      } else {
+        throw Exception('Failed to signup: ${response.body}');
+      }
     } else {
-      throw Exception('Failed to signup: ${response.body}');
+      // Athlete signup
+      final response = await http.post(
+        url,
+        headers: {'Content-Type': 'application/json'},
+        body: jsonEncode({
+          'email': data["email"],
+          'name': data["username"],
+          'password': data["password"],
+          'height': data["height"],
+          'weight': data["weight"],
+          'role': "ROLE_ATHLETE",
+        }),
+      );
+      if (response.statusCode == 201) {
+        return jsonDecode(response.body);
+      } else {
+        throw Exception('Failed to signup: ${response.body}');
+      }
     }
   }
 

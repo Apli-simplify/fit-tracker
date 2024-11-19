@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:client_flutter/common/colo_extension.dart';
 import 'package:client_flutter/common_widget/round_button.dart';
 import 'package:client_flutter/common_widget/round_textfield.dart';

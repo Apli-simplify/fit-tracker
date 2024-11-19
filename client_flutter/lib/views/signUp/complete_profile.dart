@@ -1,5 +1,7 @@
 import 'package:client_flutter/common/colo_extension.dart';
 import 'package:client_flutter/common_widget/round_icon_button.dart';
+import 'package:client_flutter/services/api_config.dart';
+import 'package:client_flutter/services/api_services.dart';
 import 'package:client_flutter/views/signUp/goal.dart';
 import 'package:flutter/material.dart';
 
@@ -7,8 +9,8 @@ import '../../../common_widget/round_button.dart';
 import '../../../common_widget/round_textfield.dart';
 
 class CompleteProfileView extends StatefulWidget {
-  const CompleteProfileView({super.key});
-
+  final Map<String, String> data;
+  const CompleteProfileView({super.key, required this.data});
   @override
   State<CompleteProfileView> createState() => _CompleteProfileViewState();
 }
@@ -16,10 +18,11 @@ class CompleteProfileView extends StatefulWidget {
 class _CompleteProfileViewState extends State<CompleteProfileView> {
   TextEditingController birthDateController = TextEditingController();
   String? gender;
+  final ApiService apiService = ApiService(baseUrl: ApiConfig.baseUrl);
   TextEditingController weightController = TextEditingController();
   TextEditingController heightController = TextEditingController();
 
-  void continueRegistration() {
+  void continueRegistration() async {
     if (gender == null ||
         birthDateController.text.isEmpty ||
         heightController.text.isEmpty ||
@@ -30,7 +33,12 @@ class _CompleteProfileViewState extends State<CompleteProfileView> {
       );
       return;
     }
+    widget.data["height"] = heightController.text;
+    widget.data["weight"] = weightController.text;
 
+    // sending request  :
+    final response = await apiService.signup(widget.data);
+    print(response);
     Navigator.push(
         context, MaterialPageRoute(builder: (context) => const GoalView()));
   }
