@@ -49,7 +49,7 @@ public class UserServiceImpl implements UserService {
     }
     @Override
     public AuthenticationResponse login(UserDto userDto) {
-
+        System.out.println("this is the user : " + userDto);
         Authentication authenticate = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(userDto.getEmail(), userDto.getPassword()));
         if (authenticate.isAuthenticated()) {
             User savedUser = userRepository.findByEmail(userDto.getEmail());

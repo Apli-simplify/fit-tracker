@@ -1,6 +1,7 @@
 package org.server.workout.dto;
 import jakarta.persistence.Column;
 import lombok.*;
+import org.server.workout.enums.Role;
 
 import java.sql.Timestamp;
 
@@ -15,5 +16,5 @@ public class UserDto{
     private String email;
     private String password;
     private Timestamp creationDate;
-    private String role;
+    private Role role;
 }
