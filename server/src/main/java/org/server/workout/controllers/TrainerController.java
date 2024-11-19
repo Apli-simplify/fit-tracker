@@ -4,13 +4,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 @RestController
-@RequestMapping("/api/client")
-public class ClientController {
+@RequestMapping("/api/trainer")
+public class TrainerController {
     @GetMapping("/dashboard")
-    public ResponseEntity<String> getClientDashboard() {
-        System.out.println("client Dashboard accessed.");
-        return ResponseEntity.ok("client Dashboard");
+    public ResponseEntity<String> getTrainerDashboard() {
+        System.out.println("trainer Dashboard accessed.");
+        return ResponseEntity.ok("trainer Dashboard");
     }
 }

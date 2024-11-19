@@ -23,7 +23,7 @@ public class CustomUserDetailsService implements UserDetailsService {
         if (user == null) {
             throw new UsernameNotFoundException("User not found with email: " + email);
         }
-        return CustomUserDetails.builder().id(user.getId()).email(user.getEmail()).password(user.getPassword()).role(user.getRole()).build();
+        return CustomUserDetails.builder().id(user.getId()).email(user.getEmail()).password(user.getPassword()).role(user.getRole().name()).build();
     }
 
 }

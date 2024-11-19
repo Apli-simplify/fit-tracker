@@ -2,6 +2,7 @@ package org.server.workout.entities;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.server.workout.enums.RoleUser;
 
 import java.sql.Timestamp;
 @Getter
@@ -24,6 +25,7 @@ public class User {
     private String password;
     @Column(name = "creationDate", nullable = true)
     private Timestamp creationDate;
+    @Enumerated(EnumType.STRING)
     @Column(name = "role", nullable = false)
-    private String role;
+    private RoleUser role;
 }

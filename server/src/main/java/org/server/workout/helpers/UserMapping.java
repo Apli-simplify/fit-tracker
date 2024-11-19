@@ -9,6 +9,7 @@ public class UserMapping{
         return UserDto.builder()
                 .id(user.getId())
                 .email(user.getEmail())
+                .role(user.getRole())
                 .build();
     }
 
@@ -20,6 +21,7 @@ public class UserMapping{
                 .id(user.getId())
                 .email(user.getEmail())
                 .password(user.getPassword())
+                .role(user.getRole().name())
                 .build();
     }
 }
