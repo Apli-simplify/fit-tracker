@@ -1,0 +1,188 @@
+/* Home Page Styles */
+.home-container {
+    font-family: 'Arial', sans-serif;
+    color: #333;
+    margin: 0;
+    padding: 0;
+
+    /* Hero Section */
+    .hero {
+        background: linear-gradient(to right, #4facfe, #00f2fe);
+        color: white;
+        padding: 120px 20px;
+        text-align: center;
+        position: relative;
+
+        .hero-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+        }
+
+        p {
+            font-size: 1.25rem;
+            margin-bottom: 30px;
+        }
+
+        .btn-main {
+            background-color: #fff;
+            color: #00f2fe;
+            padding: 15px 30px;
+            text-decoration: none;
+            border-radius: 30px;
+            font-size: 1.1rem;
+            transition: background-color 0.3s;
+
+            &:hover {
+                background-color: #4facfe;
+                color: white;
+            }
+        }
+    }
+
+    /* What We Provide Section */
+    .what-we-provide {
+        padding: 80px 20px;
+        text-align: center;
+        background-color: #f4f7fa;
+
+        .section-header {
+            margin-bottom: 40px;
+
+            h2 {
+                font-size: 2.5rem;
+                margin-bottom: 10px;
+            }
+
+            p {
+                font-size: 1.1rem;
+                color: #555;
+            }
+        }
+
+        .feature-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+
+            .feature {
+                background-color: white;
+                border-radius: 8px;
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+                padding: 30px;
+                text-align: center;
+                transition: transform 0.3s;
+
+                &:hover {
+                    transform: translateY(-10px);
+                }
+
+                img {
+                    width: 60%;
+                    margin-bottom: 20px;
+                }
+
+                h3 {
+                    font-size: 1.8rem;
+                    margin-bottom: 15px;
+                    color: #333;
+                }
+
+                p {
+                    font-size: 1.1rem;
+                    color: #777;
+                }
+            }
+        }
+    }
+
+    /* Testimonials Section */
+    .testimonials {
+        padding: 80px 20px;
+        text-align: center;
+        background-color: #ffffff;
+
+        .section-header {
+            margin-bottom: 40px;
+
+            h2 {
+                font-size: 2.5rem;
+                margin-bottom: 10px;
+            }
+
+            p {
+                font-size: 1.1rem;
+                color: #555;
+            }
+        }
+
+        .testimonial-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+
+            .testimonial-card {
+                background-color: #f8f8f8;
+                padding: 30px;
+                border-radius: 8px;
+                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+                text-align: center;
+
+                p {
+                    font-size: 1.2rem;
+                    color: #333;
+                    font-style: italic;
+                    margin-bottom: 15px;
+                }
+
+                h4 {
+                    font-size: 1.3rem;
+                    font-weight: bold;
+                    margin-bottom: 5px;
+                }
+
+                p:last-child {
+                    font-size: 1rem;
+                    color: #777;
+                }
+            }
+        }
+    }
+
+    /* CTA Section */
+    .cta {
+        background-color: #00f2fe;
+        color: white;
+        padding: 60px 20px;
+        text-align: center;
+
+        h2 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+        }
+
+        p {
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+        }
+
+        .btn-cta {
+            background-color: white;
+            color: #00f2fe;
+            padding: 15px 30px;
+            text-decoration: none;
+            border-radius: 30px;
+            font-size: 1.1rem;
+            transition: background-color 0.3s;
+
+            &:hover {
+                background-color: #4facfe;
+                color: white;
+            }
+        }
+    }
+}
