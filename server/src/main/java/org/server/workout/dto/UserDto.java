@@ -1,10 +1,12 @@
 package org.server.workout.dto;
 import jakarta.persistence.Column;
 import lombok.*;
+import lombok.experimental.SuperBuilder;
+import org.server.workout.enums.RoleUser;
 
 import java.sql.Timestamp;
 
-@Builder
+@SuperBuilder
 @Getter
 @Setter
 @AllArgsConstructor
@@ -15,5 +17,5 @@ public class UserDto{
     private String email;
     private String password;
     private Timestamp creationDate;
-    private String role;
+    private RoleUser role;
 }

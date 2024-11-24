@@ -39,8 +39,10 @@ public class AuthConfig {
                 .authorizeHttpRequests(req ->
                         req.requestMatchers("/api/users/signup","/api/users/signin")
                                 .permitAll()
+                                .requestMatchers("/api/athlete/signup").permitAll()
                                 .requestMatchers("/api/admin/**").hasRole("ADMIN")
-                                .requestMatchers("/api/client/**").hasRole("CLIENT")
+                                .requestMatchers("/api/athlete/**").hasRole("ATHLETE")
+                                .requestMatchers("/api/trainer/**").hasRole("TRAINER")
                                 .anyRequest()
                                 .authenticated()
                 )
