@@ -2,13 +2,17 @@ package org.server.workout.entities;
 
 import jakarta.persistence.*;
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 
 import java.util.List;
 
 @Getter
 @Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@SuperBuilder
 @Entity
-public class Client extends User {
+public class Athlete extends User {
     @Column(name = "age", nullable = true)
     private Integer age;
     @Column(name = "gender", nullable = true, length = 10)

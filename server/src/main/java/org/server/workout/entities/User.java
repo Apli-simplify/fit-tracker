@@ -2,15 +2,16 @@ package org.server.workout.entities;
 
 import jakarta.persistence.*;
 import lombok.*;
-import org.server.workout.enums.Role;
+import lombok.experimental.SuperBuilder;
+import org.server.workout.enums.RoleUser;
 
 import java.sql.Timestamp;
 @Getter
 @Setter
 @Entity
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@SuperBuilder
 @Inheritance(strategy = InheritanceType.JOINED)
 public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,5 +28,5 @@ public class User {
     private Timestamp creationDate;
     @Enumerated(EnumType.STRING)
     @Column(name = "role", nullable = false)
-    private Role role;
+    private RoleUser role;
 }
