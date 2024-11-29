@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
+
 @RestController
 @RequestMapping("/api/athlete")
 public class AthleteController {
@@ -22,10 +24,14 @@ public class AthleteController {
     @PostMapping("/signup")
     public ResponseEntity<?> register(@RequestBody AthleteDto athleteDto) {
         try {
+            System.out.println("coming dto : " + athleteDto);
             athleteService.registerAthlete(athleteDto);
-            return ResponseEntity.status(201).body("athlete registered successfully");
+            return ResponseEntity.status(201).body(Map.of("message", "athlete registered successfully"));
         } catch (Exception e) {
-            return ResponseEntity.status(400).body("Error during registration: " + e.getMessage());
+            return ResponseEntity.status(400).body(Map.of(
+                    "message", "Error during registration",
+                    "error", e.getMessage()
+            ));
         }
     }
 }

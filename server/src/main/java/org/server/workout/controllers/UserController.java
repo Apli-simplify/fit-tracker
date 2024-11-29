@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
+
 
 @RestController
 @RequestMapping("/api/users")
@@ -26,21 +28,22 @@ public class UserController {
     public ResponseEntity<?> register(@RequestBody UserDto userDto) {
         try {
             userService.register(userDto);
-            return ResponseEntity.status(201).body("User registered successfully");
+            return ResponseEntity.status(201).body(Map.of("message", "User registered successfully"));
         } catch (Exception e) {
-            return ResponseEntity.status(400).body("Error during registration: " + e.getMessage());
+            return ResponseEntity.status(400).body(Map.of(
+                    "message", "Error during registration",
+                    "error", e.getMessage()
+            ));
         }
     }
+
     @PostMapping("/signin")
     public ResponseEntity<?> login(@RequestBody UserDto userDto) {
         try {
-            System.out.println("yes + " + userDto);
 
             AuthenticationResponse authenticationResponse = userService.login(userDto);
-            System.out.println("yes");
             return ResponseEntity.status(200).body(authenticationResponse);
         } catch (Exception e) {
-            // Handle login failure
             return ResponseEntity.status(401).body("Invalid credentials: " + e.getMessage());
         }
     }

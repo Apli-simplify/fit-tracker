@@ -25,48 +25,43 @@ class ApiService {
     }
   }
 
-  // Signup
   Future<Map<String, dynamic>> signup(Map<String, String> data) async {
-    final url = Uri.parse(
-      '$baseUrl${data["isAthlete"] == "true" ? ApiConfig.signupEndpointAthletes : ApiConfig.signupEndpointTrainers}',
+    print(data);
+    final isAthlete = data["isAthlete"] == "true";
+    final endpoint = isAthlete
+        ? ApiConfig.signupEndpointAthletes
+        : ApiConfig.signupEndpointTrainers;
+    final role = isAthlete ? "ROLE_ATHLETE" : "ROLE_TRAINER";
+    final url = Uri.parse('$baseUrl$endpoint');
+
+    final body = {
+      'email': data["email"],
+      'name': data["name"],
+      'password': data["password"],
+      'gender': data["gender"],
+      'role': role,
+    };
+
+    if (isAthlete) {
+      body.addAll({
+        'height': data["height"],
+        'weight': data["weight"],
+        'goal': data["goal"],
+        'age': data["age"]
+      });
+    }
+
+    final response = await http.post(
+      url,
+      headers: {'Content-Type': 'application/json'},
+      body: jsonEncode(body),
     );
 
-    if (data["isAthlete"] == "false") {
-      // Trainer signup
-      final response = await http.post(
-        url,
-        headers: {'Content-Type': 'application/json'},
-        body: jsonEncode({
-          'email': data["email"],
-          'name': data["username"],
-          'password': data["password"],
-          'role': "ROLE_TRAINER",
-        }),
-      );
-      if (response.statusCode == 201) {
-        return jsonDecode(response.body);
-      } else {
-        throw Exception('Failed to signup: ${response.body}');
-      }
+    if (response.statusCode == 201) {
+      return jsonDecode(response.body);
     } else {
-      // Athlete signup
-      final response = await http.post(
-        url,
-        headers: {'Content-Type': 'application/json'},
-        body: jsonEncode({
-          'email': data["email"],
-          'name': data["username"],
-          'password': data["password"],
-          'height': data["height"],
-          'weight': data["weight"],
-          'role': "ROLE_ATHLETE",
-        }),
-      );
-      if (response.statusCode == 201) {
-        return jsonDecode(response.body);
-      } else {
-        throw Exception('Failed to signup: ${response.body}');
-      }
+      final error = jsonDecode(response.body);
+      throw Exception('Failed to signup: ${error['message'] ?? response.body}');
     }
   }
 

@@ -2,6 +2,7 @@ package org.server.workout.dto;
 import jakarta.persistence.Column;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
+import org.server.workout.enums.Gender;
 import org.server.workout.enums.RoleUser;
 
 import java.sql.Timestamp;
@@ -11,11 +12,13 @@ import java.sql.Timestamp;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@ToString
 public class UserDto{
     private Long id;
     private String name;
     private String email;
     private String password;
+    private Gender gender;
     private Timestamp creationDate;
     private RoleUser role;
 }

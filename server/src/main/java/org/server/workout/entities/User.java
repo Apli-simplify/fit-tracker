@@ -3,6 +3,7 @@ package org.server.workout.entities;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
+import org.server.workout.enums.Gender;
 import org.server.workout.enums.RoleUser;
 
 import java.sql.Timestamp;
@@ -22,6 +23,8 @@ public class User {
     private String name;
     @Column(name = "email", nullable = false, length = 100)
     private String email;
+    @Enumerated(EnumType.STRING)
+    private Gender gender;
     @Column(name = "password", nullable = false, length = 100)
     private String password;
     @Column(name = "creationDate", nullable = true)

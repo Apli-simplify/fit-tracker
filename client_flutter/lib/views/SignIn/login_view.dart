@@ -33,7 +33,6 @@ class _LoginViewState extends State<LoginView> {
         ),
       );
     } else {
-      // Show an error message if the email is invalid
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text("Please enter a valid email address."),

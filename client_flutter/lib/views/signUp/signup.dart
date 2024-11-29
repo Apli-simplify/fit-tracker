@@ -16,13 +16,18 @@ class SignUpView extends StatefulWidget {
 }
 
 class _SignUpViewState extends State<SignUpView> {
-  // Controllers to gather input
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final List<String> list = <String>['Athlete', 'Trainer'];
-  String dropdownValue = 'Athlete';
 
+  final RegExp emailRegex = RegExp(
+    r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$',
+  );
+  final RegExp passwordRegex = RegExp(r'[a-zA-Z0-9]{5,}');
+
+  String? dropdownValue;
+  String? gender;
   bool isCheck = false;
   void continueRegistration() async {
     if (_nameController.text.isEmpty ||
@@ -33,18 +38,66 @@ class _SignUpViewState extends State<SignUpView> {
       );
       return;
     }
+
+    //regex validation
+    if (_emailController.text.isNotEmpty &&
+        !emailRegex.hasMatch(_emailController.text)) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text("Please enter a valid email address."),
+          backgroundColor: Colors.red,
+        ),
+      );
+      return;
+    }
+
+    if (_passwordController.text.isNotEmpty &&
+        !passwordRegex.hasMatch(_passwordController.text)) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text("Please enter a valid password ."),
+          backgroundColor: Colors.red,
+        ),
+      );
+      return;
+    }
+
     Map<String, String> data = {
       "name": _nameController.text,
       "email": _emailController.text,
       "password": _passwordController.text,
+      "gender": gender!
     };
-    print(dropdownValue);
     if (dropdownValue == "Trainer") {
       data["isAthlete"] = "false";
-      final response = await widget.apiService.signup(data);
-      print(response);
+
+      try {
+        final response = await widget.apiService.signup(data);
+
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(response['message']),
+            backgroundColor: Colors.green,
+            duration: Duration(seconds: 3),
+          ),
+        );
+
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => LoginView()),
+        );
+      } catch (e) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(e.toString()),
+            backgroundColor: Colors.red,
+            duration: Duration(seconds: 3),
+          ),
+        );
+      }
     } else {
       data["isAthlete"] = "true";
+
       Navigator.push(
         context,
         MaterialPageRoute(
@@ -121,19 +174,119 @@ class _SignUpViewState extends State<SignUpView> {
                         ),
                       ),
                     ),
-                    DropdownMenu<String>(
-                      initialSelection: list.first,
-                      onSelected: (String? value) {
-                        // This is called when the user selects an item.
-                        setState(() {
-                          dropdownValue = value!;
-                        });
-                      },
-                      dropdownMenuEntries:
-                          list.map<DropdownMenuEntry<String>>((String value) {
-                        return DropdownMenuEntry<String>(
-                            value: value, label: value);
-                      }).toList(),
+                    SizedBox(
+                      height: media.width * 0.05,
+                    ),
+                    Container(
+                      decoration: BoxDecoration(
+                          color: TColor.lightGray,
+                          borderRadius: BorderRadius.circular(15)),
+                      child: Row(
+                        children: [
+                          Container(
+                              alignment: Alignment.center,
+                              width: 50,
+                              height: 50,
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 15),
+                              child: Image.asset(
+                                "assets/img/gender.png",
+                                width: 20,
+                                height: 20,
+                                fit: BoxFit.contain,
+                                color: TColor.gray,
+                              )),
+                          Expanded(
+                            child: DropdownButtonHideUnderline(
+                              child: DropdownButton<String>(
+                                items: ["Athlete", "Trainer"]
+                                    .map((name) => DropdownMenuItem(
+                                          value: name,
+                                          child: Text(
+                                            name,
+                                            style: TextStyle(
+                                                color: TColor.gray,
+                                                fontSize: 14),
+                                          ),
+                                        ))
+                                    .toList(),
+                                onChanged: (value) {
+                                  setState(() {
+                                    dropdownValue = value;
+                                  });
+                                },
+                                isExpanded: true,
+                                hint: Text(
+                                  "Choose Type",
+                                  style: TextStyle(
+                                      color: TColor.gray, fontSize: 12),
+                                ),
+                                value: dropdownValue,
+                              ),
+                            ),
+                          ),
+                          const SizedBox(
+                            width: 8,
+                          )
+                        ],
+                      ),
+                    ),
+                    SizedBox(
+                      height: media.width * 0.05,
+                    ),
+                    Container(
+                      decoration: BoxDecoration(
+                          color: TColor.lightGray,
+                          borderRadius: BorderRadius.circular(15)),
+                      child: Row(
+                        children: [
+                          Container(
+                              alignment: Alignment.center,
+                              width: 50,
+                              height: 50,
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 15),
+                              child: Image.asset(
+                                "assets/img/gender.png",
+                                width: 20,
+                                height: 20,
+                                fit: BoxFit.contain,
+                                color: TColor.gray,
+                              )),
+                          Expanded(
+                            child: DropdownButtonHideUnderline(
+                              child: DropdownButton<String>(
+                                items: ["MALE", "FEMALE"]
+                                    .map((name) => DropdownMenuItem(
+                                          value: name,
+                                          child: Text(
+                                            name,
+                                            style: TextStyle(
+                                                color: TColor.gray,
+                                                fontSize: 14),
+                                          ),
+                                        ))
+                                    .toList(),
+                                onChanged: (value) {
+                                  setState(() {
+                                    gender = value;
+                                  });
+                                },
+                                isExpanded: true,
+                                hint: Text(
+                                  "Choose gender",
+                                  style: TextStyle(
+                                      color: TColor.gray, fontSize: 12),
+                                ),
+                                value: gender,
+                              ),
+                            ),
+                          ),
+                          const SizedBox(
+                            width: 8,
+                          )
+                        ],
+                      ),
                     ),
                     SizedBox(height: media.width * 0.1),
                     RoundButton(

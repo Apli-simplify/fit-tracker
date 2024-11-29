@@ -16,47 +16,35 @@ class CompleteProfileView extends StatefulWidget {
 }
 
 class _CompleteProfileViewState extends State<CompleteProfileView> {
-  TextEditingController birthDateController = TextEditingController();
-  String? gender;
-  final ApiService apiService = ApiService(baseUrl: ApiConfig.baseUrl);
+  TextEditingController ageController = TextEditingController();
   TextEditingController weightController = TextEditingController();
   TextEditingController heightController = TextEditingController();
+  final ApiService apiService = ApiService(baseUrl: ApiConfig.baseUrl);
 
   void continueRegistration() async {
-    if (gender == null ||
-        birthDateController.text.isEmpty ||
+    if (ageController.text.isEmpty ||
         heightController.text.isEmpty ||
         weightController.text.isEmpty) {
       // Show error if any field is empty
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("All fields are required!")),
+        const SnackBar(content: Text("All fields are required!")),
       );
       return;
     }
+
+    widget.data["age"] = ageController.text;
     widget.data["height"] = heightController.text;
     widget.data["weight"] = weightController.text;
 
-    // sending request  :
-    final response = await apiService.signup(widget.data);
-    print(response);
+    // Navigate to GoalView
     Navigator.push(
-        context, MaterialPageRoute(builder: (context) => const GoalView()));
-  }
-
-  Future<void> _selectDate(BuildContext context) async {
-    final DateTime? picked = await showDatePicker(
-      context: context,
-      initialDate: DateTime.now(), // Initial date
-      firstDate: DateTime(1900), // Earliest date
-      lastDate: DateTime.now(), // Latest date
+      context,
+      MaterialPageRoute(
+        builder: (context) => GoalView(
+          data: widget.data,
+        ),
+      ),
     );
-
-    if (picked != null) {
-      setState(() {
-        birthDateController.text =
-            "${picked.toLocal()}".split(' ')[0]; // Format to YYYY-MM-DD
-      });
-    }
   }
 
   @override
@@ -91,70 +79,15 @@ class _CompleteProfileViewState extends State<CompleteProfileView> {
                   padding: const EdgeInsets.symmetric(horizontal: 15.0),
                   child: Column(
                     children: [
-                      Container(
-                        decoration: BoxDecoration(
-                            color: TColor.lightGray,
-                            borderRadius: BorderRadius.circular(15)),
-                        child: Row(
-                          children: [
-                            Container(
-                                alignment: Alignment.center,
-                                width: 50,
-                                height: 50,
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 15),
-                                child: Image.asset(
-                                  "assets/img/gender.png",
-                                  width: 20,
-                                  height: 20,
-                                  fit: BoxFit.contain,
-                                  color: TColor.gray,
-                                )),
-                            Expanded(
-                              child: DropdownButtonHideUnderline(
-                                child: DropdownButton<String>(
-                                  items: ["Male", "Female"]
-                                      .map((name) => DropdownMenuItem(
-                                            value: name,
-                                            child: Text(
-                                              name,
-                                              style: TextStyle(
-                                                  color: TColor.gray,
-                                                  fontSize: 14),
-                                            ),
-                                          ))
-                                      .toList(),
-                                  onChanged: (value) {
-                                    setState(() {
-                                      gender = value;
-                                    });
-                                  },
-                                  isExpanded: true,
-                                  hint: Text(
-                                    "Choose Gender",
-                                    style: TextStyle(
-                                        color: TColor.gray, fontSize: 12),
-                                  ),
-                                  value: gender,
-                                ),
-                              ),
-                            ),
-                            const SizedBox(
-                              width: 8,
-                            )
-                          ],
-                        ),
-                      ),
                       SizedBox(
                         height: media.width * 0.04,
                       ),
-                      RoundIconButton(
-                        controller: birthDateController,
-                        hitText: "Date of Birth",
-                        icon: "assets/img/date.png",
-                        onTap: () {
-                          _selectDate(context); // Open the date picker on tap
-                        },
+                      // Replace Date of Birth with Age Input
+                      RoundTextField(
+                        isNumeric: true,
+                        controller: ageController,
+                        hitText: "Your Age",
+                        icon: "assets/img/weight.png",
                       ),
                       SizedBox(
                         height: media.width * 0.04,
