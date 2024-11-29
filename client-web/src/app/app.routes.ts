@@ -1,12 +1,17 @@
 import { Routes } from '@angular/router';
-import { HomeComponent } from './home/home.component';
-import { SigninComponent } from './signin/signin.component';
-import { SignupComponent } from './signup/signup.component';
-import { NotFoundComponent } from './not-found/not-found.component';
+import { RegisterPageComponent } from './components/register-page/register-page.component';
+import { LoginPageComponent } from './components/login-page/login-page.component';
+import { AddPhotoPageComponent } from './components/add-photo-page/add-photo-page.component';
+import { AddInterestPageComponent } from './components/add-interest-page/add-interest-page.component';
+import { CongratsPageComponent } from './components/congrats-page/congrats-page.component';
+import { GetStartedPageComponent } from './components/get-started-page/get-started-page.component';
 
 export const routes: Routes = [
-    { path: '', component: HomeComponent },
-    { path: 'signin', component: SigninComponent },
-    { path: 'signup', component: SignupComponent },
-    { path: '**', component: NotFoundComponent }
+    { path: '', component: RegisterPageComponent, title: 'Register Page' },
+    { path: 'login', component: LoginPageComponent, title: 'Login Page' },
+    { path: 'add-photo', component: AddPhotoPageComponent },
+    { path: 'add-interest', component: AddInterestPageComponent },
+    { path: 'get-started', component: GetStartedPageComponent },
+    { path: 'complete', component: CongratsPageComponent },
+    { path: '**', redirectTo: '', pathMatch: 'full' },
 ];
