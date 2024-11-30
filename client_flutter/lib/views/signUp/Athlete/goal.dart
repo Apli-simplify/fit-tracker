@@ -1,14 +1,15 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:client_flutter/common/colo_extension.dart';
 import 'package:client_flutter/common_widget/round_button.dart';
+import 'package:client_flutter/models/Athlete.dart';
 import 'package:client_flutter/services/api_config.dart';
 import 'package:client_flutter/services/api_services.dart';
 import 'package:client_flutter/views/SignIn/login_view.dart';
 import 'package:flutter/material.dart';
 
 class GoalView extends StatefulWidget {
-  final Map<String, String> data;
-  const GoalView({super.key, required this.data});
+  final Athlete athlete;
+  const GoalView({super.key, required this.athlete});
   @override
   State<GoalView> createState() => _GoalViewState();
 }
@@ -54,9 +55,9 @@ class _GoalViewState extends State<GoalView> {
           throw Exception("Invalid goal selected.");
       }
 
-      widget.data["goal"] = goal;
+      widget.athlete.goal = goal;
       try {
-        final response = await apiService.signup(widget.data);
+        final response = await apiService.signup(widget.athlete);
 
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
@@ -82,7 +83,6 @@ class _GoalViewState extends State<GoalView> {
     } catch (e) {
       print("Error: $e");
 
-      // Show a SnackBar with an error message
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text('Sign-up failed: ${e.toString()}'),

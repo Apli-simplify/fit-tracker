@@ -29,12 +29,10 @@ class _PasswordViewState extends State<PasswordView> {
         if (response['access_token'] != null) {
           SharedPreferencesHelper.saveToken(
               response['access_token'], response['refresh_token']);
-          // Replace this with the actual target page after login
           Navigator.pushReplacement(
               context,
               MaterialPageRoute(
-                builder: (context) =>
-                    const HomePage(), // Assuming you have a HomePage
+                builder: (context) => const HomePage(),
               ));
         } else {
           throw Exception('Login failed');

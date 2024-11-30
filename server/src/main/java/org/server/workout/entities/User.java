@@ -29,6 +29,8 @@ public class User {
     private String password;
     @Column(name = "creationDate", nullable = true)
     private Timestamp creationDate;
+    @Column(name="age",nullable = false)
+    private Integer age;
     @Enumerated(EnumType.STRING)
     @Column(name = "role", nullable = false)
     private RoleUser role;
