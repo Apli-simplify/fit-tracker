@@ -4,6 +4,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.server.workout.config.Authentication.AuthenticationResponse;
 import org.server.workout.dto.UserDto;
+import org.server.workout.entities.User;
 import org.server.workout.exceptions.specifics.ResourceAlreadyExistException;
 import org.server.workout.service.interfaces.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +24,12 @@ public class UserController {
     @GetMapping
     public ResponseEntity<?> protectedResource() {
         System.out.println("Accessing protected resource");
+        return ResponseEntity.ok("This is a protected resource");
+    }
+
+    @GetMapping("/infos")
+    public ResponseEntity<?> userInfos() {
+        System.out.println("Accessing user infos");
         return ResponseEntity.ok("This is a protected resource");
     }
 

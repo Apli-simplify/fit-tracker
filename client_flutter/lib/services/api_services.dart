@@ -44,14 +44,15 @@ class ApiService {
       'password': user.password,
       'gender': user.gender,
       'role': role,
+      'age': user.age
     };
 
+    print(body);
     if (user is Athlete) {
       body.addAll({
         'height': user.height.toString(),
         'weight': user.weight.toString(),
         'goal': user.goal.toString(),
-        'age': user.age.toString()
       });
     }
 

@@ -11,11 +11,12 @@ public class UserMapping{
                 .email(user.getEmail())
                 .role(user.getRole())
                 .gender(user.getGender())
+                .age(user.getAge())
                 .build();
     }
 
     public static User map(final UserDto userDto) {
-        return User.builder().name(userDto.getName()).gender(userDto.getGender()).email(userDto.getEmail()).password(userDto.getPassword()).role(userDto.getRole()).build();
+        return User.builder().name(userDto.getName()).age(userDto.getAge()).gender(userDto.getGender()).email(userDto.getEmail()).password(userDto.getPassword()).role(userDto.getRole()).build();
     }
     public static CustomUserDetails mapToCustomUserDetails(final User user) {
         return CustomUserDetails.builder()
