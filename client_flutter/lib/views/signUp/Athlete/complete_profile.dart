@@ -1,12 +1,11 @@
 import 'package:client_flutter/common/colo_extension.dart';
-import 'package:client_flutter/common_widget/round_icon_button.dart';
 import 'package:client_flutter/services/api_config.dart';
 import 'package:client_flutter/services/api_services.dart';
-import 'package:client_flutter/views/signUp/goal.dart';
+import 'package:client_flutter/views/signUp/Athlete/goal.dart';
 import 'package:flutter/material.dart';
 
-import '../../../common_widget/round_button.dart';
-import '../../../common_widget/round_textfield.dart';
+import '../../../../common_widget/round_button.dart';
+import '../../../../common_widget/round_textfield.dart';
 
 class CompleteProfileView extends StatefulWidget {
   final Map<String, String> data;

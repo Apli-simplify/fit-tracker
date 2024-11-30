@@ -1,7 +1,10 @@
 package org.server.workout.controllers;
 
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.server.workout.config.Authentication.AuthenticationResponse;
 import org.server.workout.dto.UserDto;
+import org.server.workout.exceptions.specifics.ResourceAlreadyExistException;
 import org.server.workout.service.interfaces.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -27,8 +30,10 @@ public class UserController {
     @PostMapping("/signup")
     public ResponseEntity<?> register(@RequestBody UserDto userDto) {
         try {
-            userService.register(userDto);
-            return ResponseEntity.status(201).body(Map.of("message", "User registered successfully"));
+            if(userService.register(userDto) != null) {
+                return ResponseEntity.status(201).body(Map.of("message", "User registered successfully"));
+            }
+            throw new ResourceAlreadyExistException("User already exist");
         } catch (Exception e) {
             return ResponseEntity.status(400).body(Map.of(
                     "message", "Error during registration",
@@ -36,7 +41,8 @@ public class UserController {
             ));
         }
     }
-
+    // the signin normally spring security handles the exception if the user gets wrong the username and password
+    // but if you kept it he will expose the api in error so returning a response of e.getMessage() is better
     @PostMapping("/signin")
     public ResponseEntity<?> login(@RequestBody UserDto userDto) {
         try {
@@ -44,7 +50,7 @@ public class UserController {
             AuthenticationResponse authenticationResponse = userService.login(userDto);
             return ResponseEntity.status(200).body(authenticationResponse);
         } catch (Exception e) {
-            return ResponseEntity.status(401).body("Invalid credentials: " + e.getMessage());
+            return ResponseEntity.status(401).body(e.getMessage());
         }
     }
 

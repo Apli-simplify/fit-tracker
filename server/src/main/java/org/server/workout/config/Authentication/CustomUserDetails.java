@@ -19,7 +19,6 @@ public class CustomUserDetails implements UserDetails {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         // Return authorities based on role
-        System.out.println("this is role: " + role + " of user : " + email);
         return Collections.singletonList(new SimpleGrantedAuthority(role));
     }
 

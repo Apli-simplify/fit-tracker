@@ -1,5 +1,7 @@
 package org.server.workout.service.implementations;
+import jdk.jshell.spi.ExecutionControl;
 import org.server.workout.config.Authentication.AuthenticationResponse;
+import org.server.workout.config.Authentication.CustomUserDetails;
 import org.server.workout.dto.UserDto;
 import org.server.workout.entities.User;
 import org.server.workout.helpers.JwtUtil;
@@ -33,7 +35,6 @@ public class UserServiceImpl implements UserService {
     public AuthenticationResponse register(UserDto userDto) {
 
         if (userRepository.existsByEmail(userDto.getEmail())) {
-            System.out.println("user already exist");
             return null;
         }
         userDto.setPassword(passwordEncoder.encode(userDto.getPassword()));
@@ -49,22 +50,19 @@ public class UserServiceImpl implements UserService {
     }
     @Override
     public AuthenticationResponse login(UserDto userDto) {
-        System.out.println("this is the user : " + userDto);
-        Authentication authenticate = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(userDto.getEmail(), userDto.getPassword()));
-        if (authenticate.isAuthenticated()) {
-            User savedUser = userRepository.findByEmail(userDto.getEmail());
+        Authentication authentication = authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(userDto.getEmail(), userDto.getPassword())
+        );
 
-            System.out.println("isAuthenticated");
+        CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
+        String jwtToken = jwtUtil.generateToken(userDetails);
+        String refreshToken = jwtUtil.generateRefreshToken(userDetails);
 
-            String jwtToken = jwtUtil.generateToken(UserMapping.mapToCustomUserDetails(savedUser));
-            String refreshToken = jwtUtil.generateRefreshToken(UserMapping.mapToCustomUserDetails(savedUser));
-            return AuthenticationResponse.builder()
-                    .accessToken(jwtToken)
-                    .refreshToken(refreshToken)
-                    .build();
-        } else {
-            throw new RuntimeException("invalid access");
-        }
+        return AuthenticationResponse.builder()
+                .accessToken(jwtToken)
+                .refreshToken(refreshToken)
+                .build();
     }
+
 
 }

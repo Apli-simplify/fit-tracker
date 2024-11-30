@@ -4,7 +4,7 @@ import 'package:client_flutter/common_widget/round_textfield.dart';
 import 'package:client_flutter/services/api_config.dart';
 import 'package:client_flutter/services/api_services.dart';
 import 'package:client_flutter/views/SignIn/login_view.dart';
-import 'package:client_flutter/views/signUp/complete_profile.dart';
+import 'package:client_flutter/views/signUp/Athlete/complete_profile.dart';
 import 'package:flutter/material.dart';
 
 class SignUpView extends StatefulWidget {

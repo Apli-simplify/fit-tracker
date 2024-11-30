@@ -18,6 +18,7 @@ class ApiService {
         'password': password,
       }),
     );
+    print(response.body);
     if (response.statusCode == 200) {
       return jsonDecode(response.body);
     } else {
@@ -61,7 +62,7 @@ class ApiService {
       return jsonDecode(response.body);
     } else {
       final error = jsonDecode(response.body);
-      throw Exception('Failed to signup: ${error['message'] ?? response.body}');
+      throw Exception('Failed to signup: ${error['error'] ?? response.body}');
     }
   }
 

@@ -1,8 +1,10 @@
 import 'package:client_flutter/common/colo_extension.dart';
 import 'package:client_flutter/common_widget/round_button.dart';
 import 'package:client_flutter/common_widget/round_textfield.dart';
+import 'package:client_flutter/helpers/shared_preferences_helper.dart';
 import 'package:client_flutter/services/api_config.dart';
 import 'package:client_flutter/services/api_services.dart';
+import 'package:client_flutter/views/Home/home_page.dart';
 import 'package:client_flutter/views/signUp/signup.dart';
 import 'package:flutter/material.dart';
 
@@ -10,12 +12,12 @@ class PasswordView extends StatefulWidget {
   TextEditingController email;
   PasswordView({super.key, required this.email});
   final ApiService apiService = ApiService(baseUrl: ApiConfig.baseUrl);
+
   @override
   State<PasswordView> createState() => _PasswordViewState();
 }
 
 class _PasswordViewState extends State<PasswordView> {
-  bool isCheck = false;
   TextEditingController passwordController = TextEditingController();
 
   void _login() async {
@@ -23,13 +25,29 @@ class _PasswordViewState extends State<PasswordView> {
       if (widget.email.text.isNotEmpty && passwordController.text.isNotEmpty) {
         final response = await widget.apiService
             .login(widget.email.text, passwordController.text);
-        Navigator.push(context,
-            MaterialPageRoute(builder: (context) => const Text("aza")));
+
+        if (response['access_token'] != null) {
+          SharedPreferencesHelper.saveToken(
+              response['access_token'], response['refresh_token']);
+          // Replace this with the actual target page after login
+          Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                builder: (context) =>
+                    const HomePage(), // Assuming you have a HomePage
+              ));
+        } else {
+          throw Exception('Login failed');
+        }
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+          content: Text('Please enter both email and password'),
+        ));
       }
     } catch (e) {
-      print(e);
-      ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text('Login failed: $e')));
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text('Login failed: $e'),
+      ));
     }
   }
 
@@ -65,7 +83,7 @@ class _PasswordViewState extends State<PasswordView> {
                   ),
                 ),
                 SizedBox(
-                  height: media.width * 0.2,
+                  height: media.height * 0.05,
                 ),
                 RoundTextField(
                   hitText: "Enter password",
@@ -75,22 +93,15 @@ class _PasswordViewState extends State<PasswordView> {
                   obscureText: true,
                 ),
                 SizedBox(
-                  height: media.width * 0.04,
+                  height: media.height * 0.02,
                 ),
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.end,
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     GestureDetector(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const Text("zdz"),
-                          ),
-                        );
-                      },
-                      child: Text(
+                      onTap: null,
+                      child: const Text(
                         "Forgot password?",
                         style: TextStyle(
                           color: Colors.black,
@@ -102,17 +113,11 @@ class _PasswordViewState extends State<PasswordView> {
                   ],
                 ),
                 SizedBox(
-                  height: media.width * 0.1,
+                  height: media.height * 0.1,
                 ),
                 RoundButton(title: "Sign In", onPressed: _login),
                 SizedBox(
-                  height: media.width * 0.04,
-                ),
-                SizedBox(
-                  height: media.width * 0.04,
-                ),
-                SizedBox(
-                  height: media.width * 0.04,
+                  height: media.height * 0.02,
                 ),
                 TextButton(
                   onPressed: () {

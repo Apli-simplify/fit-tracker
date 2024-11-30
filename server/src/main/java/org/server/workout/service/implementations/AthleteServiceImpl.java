@@ -30,10 +30,8 @@ public class AthleteServiceImpl implements AthleteService {
             if (userRepository.existsByEmail(athleteDto.getEmail())) {
                 return null;
             }
-            System.out.println(athleteDto.getGender());
             athleteDto.setPassword(passwordEncoder.encode(athleteDto.getPassword()));
             Athlete athlete = AthleteMapping.map(athleteDto);
-            System.out.println(athlete);
             Athlete savedUser = userRepository.save(athlete);
             String jwtToken = jwtUtil.generateToken(UserMapping.mapToCustomUserDetails(savedUser));
             String refreshToken = jwtUtil.generateRefreshToken(UserMapping.mapToCustomUserDetails(savedUser));

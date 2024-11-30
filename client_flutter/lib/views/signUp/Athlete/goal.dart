@@ -28,7 +28,7 @@ class _GoalViewState extends State<GoalView> {
 
   Future<void> continueRegistration() async {
     try {
-      if (selectedGoalTitle == null || selectedGoalTitle.isEmpty) {
+      if (selectedGoalTitle.isEmpty) {
         throw Exception("No goal selected. Please choose a goal.");
       }
 
@@ -70,7 +70,7 @@ class _GoalViewState extends State<GoalView> {
           SnackBar(
             content: Text(e.toString()),
             backgroundColor: Colors.red,
-            duration: Duration(seconds: 3),
+            duration: const Duration(seconds: 3),
           ),
         );
       }
