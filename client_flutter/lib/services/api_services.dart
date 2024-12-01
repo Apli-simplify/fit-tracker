@@ -68,10 +68,8 @@ class ApiService {
 
   Future<Map<String, dynamic>> fetchData() async {
     final url = Uri.parse('$baseUrl${ApiConfig.fetchDataEndpoint}');
-    print('Requesting user data from: $url');
 
     final token = await SharedPreferencesHelper.getToken();
-    print('Using token: $token');
     if (token == null || token.isEmpty) {
       return {};
     }
@@ -82,8 +80,6 @@ class ApiService {
         'Authorization': 'Bearer $token',
       },
     );
-    print('Response Status Code: ${response.statusCode}');
-    print('Response Body: ${response.body}');
 
     if (response.statusCode == 200) {
       return jsonDecode(response.body);
