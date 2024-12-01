@@ -1,7 +1,20 @@
+import 'package:client_flutter/services/api_config.dart';
+import 'package:client_flutter/services/api_services.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatelessWidget {
-  const HomePage({super.key});
+  final ApiService apiService = ApiService(baseUrl: ApiConfig.baseUrl);
+  HomePage({super.key});
+
+  Future<Map<String, dynamic>> fetchData() async {
+    try {
+      final response = await apiService.fetchData();
+      return response;
+    } catch (e) {
+      print('Error fetching data: $e');
+      return {};
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -52,6 +65,47 @@ class HomePage extends StatelessWidget {
                 print('Navigate to Settings');
               },
               child: const Text('Go to Settings'),
+            ),
+            const SizedBox(height: 40),
+
+            // Use FutureBuilder to fetch user info and display role
+            FutureBuilder<Map<String, dynamic>>(
+              future: fetchData(), // Call the fetchUserInfo method
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  // Show loading indicator while waiting
+                  return CircularProgressIndicator();
+                } else if (snapshot.hasError) {
+                  // Display error if fetching fails
+                  return Text('Error: ${snapshot.error}');
+                } else if (snapshot.hasData) {
+                  // Extract role from the fetched user data
+                  final data = snapshot.data ?? {};
+                  final role = data['role'] ?? 'No role available';
+
+                  return Column(
+                    children: [
+                      const Text(
+                        'Your Role:',
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black,
+                        ),
+                      ),
+                      Text(
+                        role, // Display the role
+                        style: TextStyle(
+                          fontSize: 18,
+                          color: Colors.black54,
+                        ),
+                      ),
+                    ],
+                  );
+                } else {
+                  return const Text('No user data found');
+                }
+              },
             ),
           ],
         ),

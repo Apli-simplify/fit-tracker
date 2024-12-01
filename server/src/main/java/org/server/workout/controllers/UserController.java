@@ -1,5 +1,6 @@
 package org.server.workout.controllers;
 
+
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.server.workout.config.Authentication.AuthenticationResponse;
@@ -9,11 +10,10 @@ import org.server.workout.exceptions.specifics.ResourceAlreadyExistException;
 import org.server.workout.service.interfaces.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
-
-
 @RestController
 @RequestMapping("/api/users")
 public class UserController {
@@ -27,13 +27,14 @@ public class UserController {
         return ResponseEntity.ok("This is a protected resource");
     }
 
-    @GetMapping("/infos")
+    @GetMapping("/user-info")
     public ResponseEntity<?> userInfos() {
-        System.out.println("Accessing user infos");
-        return ResponseEntity.ok("This is a protected resource");
+            System.out.println("user info");
+            String email = SecurityContextHolder.getContext().getAuthentication().getName();
+
+            return ResponseEntity.status(200).body(userService.findByEmail(email));
     }
 
-    // Register a new user
     @PostMapping("/signup")
     public ResponseEntity<?> register(@RequestBody UserDto userDto) {
         try {

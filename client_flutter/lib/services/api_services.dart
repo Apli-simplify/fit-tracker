@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:client_flutter/helpers/shared_preferences_helper.dart';
 import 'package:client_flutter/models/Athlete.dart';
 import 'package:client_flutter/models/User.dart';
 import 'package:client_flutter/services/api_config.dart';
@@ -9,7 +10,6 @@ class ApiService {
 
   ApiService({required this.baseUrl});
 
-  // Login
   Future<Map<String, dynamic>> login(String email, String password) async {
     final url = Uri.parse('$baseUrl${ApiConfig.loginEndpoint}');
     final response = await http.post(
@@ -20,7 +20,6 @@ class ApiService {
         'password': password,
       }),
     );
-    print(response.body);
     if (response.statusCode == 200) {
       return jsonDecode(response.body);
     } else {
@@ -29,8 +28,6 @@ class ApiService {
   }
 
   Future<Map<String, dynamic>> signup(User user) async {
-    print(user.toString());
-
     final endpoint = user is Athlete
         ? ApiConfig.signupEndpointAthletes
         : ApiConfig.signupEndpointTrainers;
@@ -47,7 +44,6 @@ class ApiService {
       'age': user.age
     };
 
-    print(body);
     if (user is Athlete) {
       body.addAll({
         'height': user.height.toString(),
@@ -70,8 +66,15 @@ class ApiService {
     }
   }
 
-  Future<List<dynamic>> fetchData(String token) async {
+  Future<Map<String, dynamic>> fetchData() async {
     final url = Uri.parse('$baseUrl${ApiConfig.fetchDataEndpoint}');
+    print('Requesting user data from: $url');
+
+    final token = await SharedPreferencesHelper.getToken();
+    print('Using token: $token');
+    if (token == null || token.isEmpty) {
+      return {};
+    }
     final response = await http.get(
       url,
       headers: {
@@ -79,6 +82,8 @@ class ApiService {
         'Authorization': 'Bearer $token',
       },
     );
+    print('Response Status Code: ${response.statusCode}');
+    print('Response Body: ${response.body}');
 
     if (response.statusCode == 200) {
       return jsonDecode(response.body);

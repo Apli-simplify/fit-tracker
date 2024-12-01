@@ -3,5 +3,5 @@ class ApiConfig {
   static const String loginEndpoint = "users/signin";
   static const String signupEndpointAthletes = "athlete/signup";
   static const String signupEndpointTrainers = "users/signup";
-  static const String fetchDataEndpoint = "data";
+  static const String fetchDataEndpoint = "users/user-info";
 }

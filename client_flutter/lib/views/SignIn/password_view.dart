@@ -32,7 +32,7 @@ class _PasswordViewState extends State<PasswordView> {
           Navigator.pushReplacement(
               context,
               MaterialPageRoute(
-                builder: (context) => const HomePage(),
+                builder: (context) => HomePage(),
               ));
         } else {
           throw Exception('Login failed');
