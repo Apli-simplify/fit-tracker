@@ -1,10 +1,10 @@
 import { Routes } from '@angular/router';
-import { RegisterPageComponent } from './components/register-page/register-page.component';
-import { LoginPageComponent } from './components/login-page/login-page.component';
-import { AddPhotoPageComponent } from './components/add-photo-page/add-photo-page.component';
-import { AddInterestPageComponent } from './components/add-interest-page/add-interest-page.component';
-import { CongratsPageComponent } from './components/congrats-page/congrats-page.component';
-import { GetStartedPageComponent } from './components/get-started-page/get-started-page.component';
+import { RegisterPageComponent } from './pages/register-page/register-page.component';
+import { LoginPageComponent } from './pages/login-page/login-page.component';
+import { AddPhotoPageComponent } from './pages/add-photo-page/add-photo-page.component';
+import { AddInterestPageComponent } from './pages/add-interest-page/add-interest-page.component';
+import { CongratsPageComponent } from './pages/congrats-page/congrats-page.component';
+import { GetStartedPageComponent } from './pages/get-started-page/get-started-page.component';
 
 export const routes: Routes = [
     { path: '', component: RegisterPageComponent, title: 'Register Page' },
