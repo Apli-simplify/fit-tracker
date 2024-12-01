@@ -66,8 +66,8 @@ class ApiService {
     }
   }
 
-  Future<Map<String, dynamic>> fetchData() async {
-    final url = Uri.parse('$baseUrl${ApiConfig.fetchDataEndpoint}');
+  Future<Map<String, dynamic>> fetchUserData() async {
+    final url = Uri.parse('$baseUrl${ApiConfig.fetchUserDataEndpoint}');
 
     final token = await SharedPreferencesHelper.getToken();
     if (token == null || token.isEmpty) {

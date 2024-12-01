@@ -8,7 +8,7 @@ class HomePage extends StatelessWidget {
 
   Future<Map<String, dynamic>> fetchData() async {
     try {
-      final response = await apiService.fetchData();
+      final response = await apiService.fetchUserData();
       return response;
     } catch (e) {
       print('Error fetching data: $e');
