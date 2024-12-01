@@ -33,8 +33,7 @@ public class AuthenticationFilter extends OncePerRequestFilter{
             @NonNull FilterChain filterChain
     ) throws ServletException, IOException {
         if (request.getRequestURI().contains("/api/users/signup") || request.getRequestURI().contains("/api/users/signin") || request.getRequestURI().contains("/api/athlete/signup")) {
-            System.out.println("yes hh");
-            filterChain.doFilter(request, response);  // Proceed without checking for JWT
+            filterChain.doFilter(request, response);
             return;
         }
         final String authHeader = request.getHeader("Authorization");
@@ -65,7 +64,6 @@ public class AuthenticationFilter extends OncePerRequestFilter{
             }
             filterChain.doFilter(request, response);
         } catch (Exception e) {
-            // If the token is invalid or expired, send a 403 Forbidden response
             response.setHeader("error message", e.getMessage());
             response.sendError(HttpServletResponse.SC_FORBIDDEN, e.getMessage());
             e.printStackTrace();

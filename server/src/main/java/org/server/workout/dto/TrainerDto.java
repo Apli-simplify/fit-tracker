@@ -10,4 +10,5 @@ import lombok.experimental.SuperBuilder;
 @Setter
 @SuperBuilder
 public class TrainerDto extends UserDto {
+
 }

@@ -6,6 +6,7 @@ import jakarta.persistence.OneToMany;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 import org.server.workout.entities.Customprogram;
+import org.server.workout.enums.Goal;
 
 import java.util.List;
 @Getter
@@ -13,10 +14,9 @@ import java.util.List;
 @SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString
 public class AthleteDto extends UserDto{
-    private Integer age;
-    private String gender;
     private Double weight;
     private Double height;
-    private String goal;
+    private Goal goal;
 }
