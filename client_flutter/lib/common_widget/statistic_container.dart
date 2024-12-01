@@ -20,7 +20,7 @@ class StatisticContainer extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            title, // Display dynamic title
+            title,
             style: const TextStyle(
               color: Colors.white,
               fontSize: 18,
