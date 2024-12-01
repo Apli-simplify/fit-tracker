@@ -5,6 +5,7 @@ import lombok.experimental.SuperBuilder;
 import org.server.workout.enums.Gender;
 import org.server.workout.enums.RoleUser;
 
+import java.net.Inet4Address;
 import java.sql.Timestamp;
 
 @SuperBuilder
@@ -21,4 +22,5 @@ public class UserDto{
     private Gender gender;
     private Timestamp creationDate;
     private RoleUser role;
+    private Integer age;
 }

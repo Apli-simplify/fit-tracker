@@ -1,47 +1,49 @@
 import 'package:client_flutter/common/colo_extension.dart';
-import 'package:client_flutter/common_widget/round_icon_button.dart';
+import 'package:client_flutter/models/Athlete.dart';
+import 'package:client_flutter/models/User.dart';
 import 'package:client_flutter/services/api_config.dart';
 import 'package:client_flutter/services/api_services.dart';
-import 'package:client_flutter/views/signUp/goal.dart';
+import 'package:client_flutter/views/signUp/Athlete/goal.dart';
 import 'package:flutter/material.dart';
 
-import '../../../common_widget/round_button.dart';
-import '../../../common_widget/round_textfield.dart';
+import '../../../../common_widget/round_button.dart';
+import '../../../../common_widget/round_textfield.dart';
 
 class CompleteProfileView extends StatefulWidget {
-  final Map<String, String> data;
-  const CompleteProfileView({super.key, required this.data});
+  final User user;
+  const CompleteProfileView({super.key, required this.user});
   @override
   State<CompleteProfileView> createState() => _CompleteProfileViewState();
 }
 
 class _CompleteProfileViewState extends State<CompleteProfileView> {
-  TextEditingController ageController = TextEditingController();
   TextEditingController weightController = TextEditingController();
   TextEditingController heightController = TextEditingController();
   final ApiService apiService = ApiService(baseUrl: ApiConfig.baseUrl);
 
   void continueRegistration() async {
-    if (ageController.text.isEmpty ||
-        heightController.text.isEmpty ||
-        weightController.text.isEmpty) {
-      // Show error if any field is empty
+    if (heightController.text.isEmpty || weightController.text.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text("All fields are required!")),
       );
       return;
     }
+    Athlete athlete = Athlete(
+      name: widget.user.name,
+      email: widget.user.email,
+      password: widget.user.password,
+      gender: widget.user.gender,
+      age: widget.user.age,
+      goal: "",
+      height: double.parse(heightController.text),
+      weight: double.parse(weightController.text),
+    );
 
-    widget.data["age"] = ageController.text;
-    widget.data["height"] = heightController.text;
-    widget.data["weight"] = weightController.text;
-
-    // Navigate to GoalView
     Navigator.push(
       context,
       MaterialPageRoute(
         builder: (context) => GoalView(
-          data: widget.data,
+          athlete: athlete,
         ),
       ),
     );
@@ -79,16 +81,6 @@ class _CompleteProfileViewState extends State<CompleteProfileView> {
                   padding: const EdgeInsets.symmetric(horizontal: 15.0),
                   child: Column(
                     children: [
-                      SizedBox(
-                        height: media.width * 0.04,
-                      ),
-                      // Replace Date of Birth with Age Input
-                      RoundTextField(
-                        isNumeric: true,
-                        controller: ageController,
-                        hitText: "Your Age",
-                        icon: "assets/img/weight.png",
-                      ),
                       SizedBox(
                         height: media.width * 0.04,
                       ),

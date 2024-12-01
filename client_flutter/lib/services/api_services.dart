@@ -1,4 +1,7 @@
 import 'dart:convert';
+import 'package:client_flutter/helpers/shared_preferences_helper.dart';
+import 'package:client_flutter/models/Athlete.dart';
+import 'package:client_flutter/models/User.dart';
 import 'package:client_flutter/services/api_config.dart';
 import 'package:http/http.dart' as http;
 
@@ -7,7 +10,6 @@ class ApiService {
 
   ApiService({required this.baseUrl});
 
-  // Login
   Future<Map<String, dynamic>> login(String email, String password) async {
     final url = Uri.parse('$baseUrl${ApiConfig.loginEndpoint}');
     final response = await http.post(
@@ -25,29 +27,28 @@ class ApiService {
     }
   }
 
-  Future<Map<String, dynamic>> signup(Map<String, String> data) async {
-    print(data);
-    final isAthlete = data["isAthlete"] == "true";
-    final endpoint = isAthlete
+  Future<Map<String, dynamic>> signup(User user) async {
+    final endpoint = user is Athlete
         ? ApiConfig.signupEndpointAthletes
         : ApiConfig.signupEndpointTrainers;
-    final role = isAthlete ? "ROLE_ATHLETE" : "ROLE_TRAINER";
+
+    final role = user is Athlete ? "ROLE_ATHLETE" : "ROLE_TRAINER";
     final url = Uri.parse('$baseUrl$endpoint');
 
     final body = {
-      'email': data["email"],
-      'name': data["name"],
-      'password': data["password"],
-      'gender': data["gender"],
+      'email': user.email,
+      'name': user.name,
+      'password': user.password,
+      'gender': user.gender,
       'role': role,
+      'age': user.age
     };
 
-    if (isAthlete) {
+    if (user is Athlete) {
       body.addAll({
-        'height': data["height"],
-        'weight': data["weight"],
-        'goal': data["goal"],
-        'age': data["age"]
+        'height': user.height.toString(),
+        'weight': user.weight.toString(),
+        'goal': user.goal.toString(),
       });
     }
 
@@ -61,13 +62,17 @@ class ApiService {
       return jsonDecode(response.body);
     } else {
       final error = jsonDecode(response.body);
-      throw Exception('Failed to signup: ${error['message'] ?? response.body}');
+      throw Exception('Failed to signup: ${error['error'] ?? response.body}');
     }
   }
 
-  // Fetch data
-  Future<List<dynamic>> fetchData(String token) async {
-    final url = Uri.parse('$baseUrl${ApiConfig.fetchDataEndpoint}');
+  Future<Map<String, dynamic>> fetchUserData() async {
+    final url = Uri.parse('$baseUrl${ApiConfig.fetchUserDataEndpoint}');
+
+    final token = await SharedPreferencesHelper.getToken();
+    if (token == null || token.isEmpty) {
+      return {};
+    }
     final response = await http.get(
       url,
       headers: {

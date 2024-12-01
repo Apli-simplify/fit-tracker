@@ -1,10 +1,12 @@
 import 'package:client_flutter/common/colo_extension.dart';
 import 'package:client_flutter/common_widget/round_button.dart';
 import 'package:client_flutter/common_widget/round_textfield.dart';
+import 'package:client_flutter/models/Athlete.dart';
+import 'package:client_flutter/models/User.dart';
 import 'package:client_flutter/services/api_config.dart';
 import 'package:client_flutter/services/api_services.dart';
 import 'package:client_flutter/views/SignIn/login_view.dart';
-import 'package:client_flutter/views/signUp/complete_profile.dart';
+import 'package:client_flutter/views/signUp/Athlete/complete_profile.dart';
 import 'package:flutter/material.dart';
 
 class SignUpView extends StatefulWidget {
@@ -19,6 +21,8 @@ class _SignUpViewState extends State<SignUpView> {
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _ageController = TextEditingController();
+
   final List<String> list = <String>['Athlete', 'Trainer'];
 
   final RegExp emailRegex = RegExp(
@@ -32,7 +36,9 @@ class _SignUpViewState extends State<SignUpView> {
   void continueRegistration() async {
     if (_nameController.text.isEmpty ||
         _emailController.text.isEmpty ||
-        _passwordController.text.isEmpty) {
+        _passwordController.text.isEmpty ||
+        _ageController.text.isEmpty ||
+        gender == null) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text("All fields are required!")),
       );
@@ -43,7 +49,7 @@ class _SignUpViewState extends State<SignUpView> {
     if (_emailController.text.isNotEmpty &&
         !emailRegex.hasMatch(_emailController.text)) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
+        const SnackBar(
           content: Text("Please enter a valid email address."),
           backgroundColor: Colors.red,
         ),
@@ -54,7 +60,7 @@ class _SignUpViewState extends State<SignUpView> {
     if (_passwordController.text.isNotEmpty &&
         !passwordRegex.hasMatch(_passwordController.text)) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
+        const SnackBar(
           content: Text("Please enter a valid password ."),
           backgroundColor: Colors.red,
         ),
@@ -62,17 +68,16 @@ class _SignUpViewState extends State<SignUpView> {
       return;
     }
 
-    Map<String, String> data = {
-      "name": _nameController.text,
-      "email": _emailController.text,
-      "password": _passwordController.text,
-      "gender": gender!
-    };
-    if (dropdownValue == "Trainer") {
-      data["isAthlete"] = "false";
+    User user = User(
+        email: _emailController.text,
+        gender: gender,
+        name: _nameController.text,
+        password: _passwordController.text,
+        age: int.parse(_ageController.text));
 
+    if (dropdownValue == "Trainer") {
       try {
-        final response = await widget.apiService.signup(data);
+        final response = await widget.apiService.signup(user);
 
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
@@ -96,12 +101,12 @@ class _SignUpViewState extends State<SignUpView> {
         );
       }
     } else {
-      data["isAthlete"] = "true";
-
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => CompleteProfileView(data: data),
+          builder: (context) => CompleteProfileView(
+            user: user,
+          ),
         ),
       );
     }
@@ -151,6 +156,18 @@ class _SignUpViewState extends State<SignUpView> {
                       icon: "assets/img/email.png",
                       keyboardType: TextInputType.emailAddress,
                       controller: _emailController,
+                    ),
+                    SizedBox(
+                      height: media.width * 0.04,
+                    ),
+                    RoundTextField(
+                      isNumeric: true,
+                      controller: _ageController,
+                      hitText: "Your Age",
+                      icon: "assets/img/weight.png",
+                    ),
+                    SizedBox(
+                      height: media.width * 0.04,
                     ),
                     SizedBox(height: media.width * 0.04),
                     RoundTextField(

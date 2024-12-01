@@ -34,7 +34,7 @@ class _LoginViewState extends State<LoginView> {
       );
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
+        const SnackBar(
           content: Text("Please enter a valid email address."),
           backgroundColor: Colors.red,
         ),
@@ -53,9 +53,8 @@ class _LoginViewState extends State<LoginView> {
             height: media.height * 0.9,
             padding: const EdgeInsets.symmetric(horizontal: 20),
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.center, // Center vertically
-              crossAxisAlignment:
-                  CrossAxisAlignment.center, // Center horizontally
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Text(
                   "Sign In",

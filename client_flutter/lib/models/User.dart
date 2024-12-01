@@ -1,49 +1,41 @@
 class User {
   final int? id;
-  String? firstname;
-  String? lastname;
+  String? name;
   String email;
   String? password;
-  bool? gender;
-  double? weight;
-  double? height;
+  String? gender;
+  int? age;
+
   User({
     this.id,
-    this.firstname,
-    this.lastname,
+    this.name,
     required this.email,
     this.password,
     this.gender,
-    this.weight,
-    this.height,
+    required this.age,
   });
 
   @override
   String toString() {
-    return 'User{id: $id, firstname: $firstname, lastname: $lastname, email: $email, password: $password, gender: $gender, weight: $weight, height: $height}';
+    return 'User{id: $id, name: $name, email: $email, password: $password, gender: $gender}';
   }
 
   Map<String, dynamic> toJson() => {
         'id': id,
-        'firstname': firstname,
-        'lastname': lastname,
+        'name': name,
         'email': email,
         'password': password,
         'gender': gender,
-        'weight': weight,
-        'height': height,
       };
 
   factory User.fromJson(Map<String, dynamic> json) {
     return User(
       id: json['id'],
-      firstname: json['firstname'],
-      lastname: json['lastname'],
+      name: json['name'],
       email: json['email'],
       password: json['password'],
       gender: json['gender'],
-      weight: json['weight'],
-      height: json['height'],
+      age: json['age'],
     );
   }
 }

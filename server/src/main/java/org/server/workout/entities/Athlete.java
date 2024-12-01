@@ -15,8 +15,6 @@ import java.util.List;
 @SuperBuilder
 @Entity
 public class Athlete extends User {
-    @Column(name = "age", nullable = true)
-    private Integer age;
     @Column(name = "weight", nullable = true)
     private Double weight;
     @Column(name = "height", nullable = true)

@@ -16,7 +16,6 @@ import java.util.List;
 @AllArgsConstructor
 @ToString
 public class AthleteDto extends UserDto{
-    private Integer age;
     private Double weight;
     private Double height;
     private Goal goal;
