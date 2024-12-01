@@ -8,17 +8,7 @@
   </div>
 
   <div class="register-section w-full lg:w-3/4 xl:w-1/2 h-full">
-    <div class="header flex justify-around text-center items-center my-12">
-      <div class="flex items-center cursor-pointer">
-        <!-- <img src="images/Left.png" class="w-4 h-4" alt="back_arrow" />
-        <p class="pl-2">Back</p> -->
-      </div>
-      <div class="steps">
-        <p><span class="font-bold">Step </span>1 of 4</p>
-      </div>
-    </div>
-
-    <div class="content w-full h-full">
+    <div class="content w-full h-full my-12">
       <h2 class="font-bold text-3xl text-center">Create Account</h2>
 
       <div class="w-full h-full">
@@ -70,19 +60,49 @@
           </div>
 
           <div class="form-group w-full lg:w-1/2">
-            <button routerLink="/add-photo"
+            <label for="Name">Age</label>
+            <input type="number" class="text-xs border border-gray-300 rounded-md w-full p-2.5 outline-none"
+              placeholder="23" formControlName="age" [class.error-border]="age && age.invalid && age.touched" min="0"
+              max="120" />
+            <div *ngIf="age?.invalid && age?.touched" class="text-red-500 text-xs">
+              <div *ngIf="age?.errors?.['required']">Age is required.</div>
+              <div *ngIf="age?.errors?.['min']">Age must be greater than or equal to 0.</div>
+              <div *ngIf="age?.errors?.['max']">Age must be less than or equal to 120.</div>
+            </div>
+          </div>
+
+          <div class="form-group w-full lg:w-1/2">
+            <label for="type">Type</label>
+            <select class="text-xs border border-gray-300 rounded-md w-full p-2.5 outline-none" formControlName="type"
+              [class.error-border]="type && type.invalid && type.touched">
+              <option value="" disabled selected>Select Type</option>
+              <option value="ATHLETE">Athlete</option>
+              <option value="TRAINER">Trainer</option>
+            </select>
+            <div *ngIf="type?.invalid && type?.touched" class="text-red-500 text-xs">
+              <div *ngIf="type?.errors?.['required']">Type is required.</div>
+            </div>
+          </div>
+
+          <div class="form-group w-full lg:w-1/2">
+            <label for="gender">Gender</label>
+            <select class="text-xs border border-gray-300 rounded-md w-full p-2.5 outline-none" formControlName="gender"
+              [class.error-border]="gender && gender.invalid && gender.touched">
+              <option value="" disabled selected>Select Gender</option>
+              <option value="MALE">Male</option>
+              <option value="FEMALE">Female</option>
+            </select>
+            <div *ngIf="gender?.invalid && gender?.touched" class="text-red-500 text-xs">
+              <div *ngIf="gender?.errors?.['required']">Gender is required.</div>
+            </div>
+          </div>
+
+          <div class="form-group w-full lg:w-1/2">
+            <button routerLink="/signup/athlete"
               class="bg-[#0267FF] hover:bg-blue-600 px-20 py-2.5 disabled:cursor-not-allowed disabled:bg-blue-300 text-white font-normal text-xs leading-tight"
               type="submit" [disabled]="registerForm.invalid">
               Create Account
             </button>
-          </div>
-
-          <div class="form-group w-full lg:w-1/2">
-            <p
-              class="cursor-pointer my-5 sm:px-7 py-3 text-black font-medium text-sm leading-snug rounded shadow-md hover:shadow-lg focus:shadow-lg focus:outline-none focus:ring-0 active:shadow-lg transition duration-150 ease-in-out w-full flex justify-center items-center">
-              <img src="images/Google_logo.png" alt="Google_logo" class="mr-2" />
-              Sign up with Google
-            </p>
           </div>
 
           <div>

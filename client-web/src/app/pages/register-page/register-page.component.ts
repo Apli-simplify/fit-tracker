@@ -20,16 +20,16 @@ import { CustomValidators } from '../../utils/custom-validator';
 export class RegisterPageComponent implements OnInit {
   registerForm!: FormGroup;
 
-  constructor(private fb: FormBuilder) {}
+  constructor(private fb: FormBuilder) { }
 
   ngOnInit() {
     this.registerForm = this.fb.group({
       name: ['', [Validators.required]],
       email: ['', [Validators.required, Validators.email]],
-      password: [
-        '',
-        [Validators.required, CustomValidators.passwordStrength()],
-      ],
+      password: ['', [Validators.required, CustomValidators.passwordStrength()]],
+      age: ['', [Validators.required]],
+      type: ['', [Validators.required]],
+      gender: ['', [Validators.required]],
     });
   }
 
@@ -45,5 +45,17 @@ export class RegisterPageComponent implements OnInit {
     return this.registerForm.get('password');
   }
 
-  onSubmit() {}
+  get age() {
+    return this.registerForm.get('age');
+  }
+
+  get type() {
+    return this.registerForm.get('type');
+  }
+
+  get gender() {
+    return this.registerForm.get('gender');
+  }
+
+  onSubmit() { }
 }
