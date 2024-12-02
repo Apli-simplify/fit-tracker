@@ -1,0 +1,55 @@
+<div class="w-full h-full flex mx-auto">
+    <div class="left-side-bg sider w-full min-h-screen bg-[#7C4DFF] relative hidden lg:block lg:w-1/4 xl:w-1/2">
+    </div>
+
+    <div class="register-section w-full lg:w-3/4 xl:w-1/2 h-full">
+        <div class="content w-full h-full my-12">
+            <h2 class="font-bold text-3xl text-center">Create Account</h2>
+
+            <div class="w-full h-full">
+                <form class="flex flex-col w-full justify-center items-center px-8 pt-6 pb-8 mb-4"
+                    [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+
+                    <div class="form-group w-full lg:w-1/2">
+                        <label for="weight">Weight (in KG)</label>
+                        <input type="number" class="text-xs border border-gray-300 rounded-md w-full p-2.5 outline-none"
+                            placeholder="60.5" formControlName="weight"
+                            [class.error-border]="weight && weight.invalid && weight.touched" min="0" max="500" />
+                        <div *ngIf="weight?.invalid && weight?.touched" class="text-red-500 text-xs">
+                            <div *ngIf="weight?.errors?.['required']">Weight is required.</div>
+                            <div *ngIf="weight?.errors?.['min']">Weight must be greater than or equal to 0.</div>
+                            <div *ngIf="weight?.errors?.['max']">Weight must be less than or equal to 500 kg.</div>
+                        </div>
+                    </div>
+
+                    <div class="form-group w-full lg:w-1/2">
+                        <label for="height">Height (in CM)</label>
+                        <input type="number" class="text-xs border border-gray-300 rounded-md w-full p-2.5 outline-none"
+                            placeholder="165" formControlName="height"
+                            [class.error-border]="height && height.invalid && height.touched" min="0" max="300" />
+                        <div *ngIf="height?.invalid && height?.touched" class="text-red-500 text-xs">
+                            <div *ngIf="height?.errors?.['required']">Height is required.</div>
+                            <div *ngIf="height?.errors?.['min']">Height must be greater than or equal to 0 cm.</div>
+                            <div *ngIf="height?.errors?.['max']">Height must be less than or equal to 300 cm.</div>
+                        </div>
+                    </div>
+
+                    <div class="form-group w-full lg:w-1/2">
+                        <button routerLink="/signup/athlete/goal"
+                            class="bg-[#7C4DFF] hover:bg-purple-600 px-20 py-2.5 disabled:cursor-not-allowed disabled:bg-purple-300 text-white font-normal text-xs leading-tight"
+                            type="submit" [disabled]="registerForm.invalid">
+                            Create Account
+                        </button>
+                    </div>
+
+                    <div>
+                        <p class="text-center mt-4 text-[#a6a6a6]">
+                            Already have an account?
+                            <a routerLink="/login" class="text-[#7C4DFF] font-bold cursor-pointer">Log in</a>
+                        </p>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

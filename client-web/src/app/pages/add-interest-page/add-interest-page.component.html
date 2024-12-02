@@ -1,0 +1,52 @@
+<div class="w-full h-full flex">
+  <div class="w-full relative hidden lg:block lg:w-1/2">
+    <img [src]="backgroundImage" class="w-full lg:w-[90%] min-h-screen object-cover" alt="interest_image" />
+  </div>
+
+  <div class="w-full lg:w-1/2 h-full">
+    <div class="header flex justify-around text-center items-center my-12">
+      <div class="flex items-center cursor-pointer">
+        <img src="images/Left.png" class="w-4 h-4" alt="back_arrow" />
+        <p class="pl-2">Back</p>
+      </div>
+      <div class="steps">
+        <p><span class="font-bold">Step </span>3 of 4</p>
+      </div>
+    </div>
+
+    <div class="content w-full h-full">
+      <h2 class="font-semibold text-xl md:text-3xl text-center p-3">
+        Hey! there What brings you here?
+      </h2>
+      <p class="text-center">This will help us make great recommendations</p>
+
+      <div class="w-full h-full">
+        <form class="flex flex-col w-full h-full justify-center items-center px-8 pt-6 pb-8 mb-4">
+          <div class="flex flex-col my-4 md:py-4 md:w-1/2 w-full">
+            <div *ngFor="let interest of interestArray; let i = index"
+              class="flex w-full justify-center text-center text-xs font-medium outline-none border border-black py-2 md:px-4 my-4 rounded-full cursor-pointer hover:bg-blue-600 hover:text-white hover:border-blue-600"
+              [ngClass]="{
+                'bg-blue-600 text-white': i === selectedIndex,
+                'border-black': i !== selectedIndex,
+                'hover:bg-blue-600 hover:text-white hover:border-blue-600':
+                  i !== selectedIndex
+              }" (click)="selectInterest(i)">
+              <img [src]="
+                  i === selectedIndex
+                    ? interest.selectedImgPath
+                    : interest.imgPath
+                " class="w-3 h-3 md:w-4 md:h-4" alt="add_icon" />
+              <p class="lg:pl-4 pl-2">{{ interest.name }}</p>
+            </div>
+          </div>
+
+          <button routerLink="/get-started"
+            class="bg-[#0267FF] hover:bg-blue-600 px-20 py-2.5 text-white font-normal text-xs leading-tight md:w-1/2 w-full rounded-lg"
+            type="submit">
+            Continue
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

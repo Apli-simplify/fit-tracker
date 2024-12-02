@@ -1,12 +1,15 @@
 import { Routes } from '@angular/router';
-import { HomeComponent } from './home/home.component';
-import { SigninComponent } from './signin/signin.component';
-import { SignupComponent } from './signup/signup.component';
-import { NotFoundComponent } from './not-found/not-found.component';
+import { HomePageComponent } from './pages/home-page/home-page.component';
+import { LoginPageComponent } from './pages/login-page/login-page.component';
+import { RegisterPageComponent } from './pages/register-page/register-page.component';
+import { RegisterAthletePageComponent } from './pages/register-athlete-page/register-athlete-page.component';
+import { RegisterAthleteGoalPageComponent } from './pages/register-athlete-goal-page/register-athlete-goal-page.component';
 
 export const routes: Routes = [
-    { path: '', component: HomeComponent },
-    { path: 'signin', component: SigninComponent },
-    { path: 'signup', component: SignupComponent },
-    { path: '**', component: NotFoundComponent }
+    { path: '', component: HomePageComponent, title: 'Home Page' },
+    { path: 'signup', component: RegisterPageComponent, title: 'Register Page' },
+    { path: 'login', component: LoginPageComponent, title: 'Login Page' },
+    { path: 'signup/athlete', component: RegisterAthletePageComponent },
+    { path: 'signup/athlete/goal', component: RegisterAthleteGoalPageComponent },
+    { path: '**', redirectTo: '', pathMatch: 'full' },
 ];
