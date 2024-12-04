@@ -1,5 +1,6 @@
 package org.server.workout.entities;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -26,6 +27,5 @@ public class Program {
             inverseJoinColumns = @JoinColumn(name = "exercise_id")
     )
     private Set<Exercise> exercises = new HashSet<>();
-
 
 }

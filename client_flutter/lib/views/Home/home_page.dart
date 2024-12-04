@@ -1,5 +1,8 @@
+import 'package:client_flutter/models/Athlete.dart';
 import 'package:client_flutter/services/api_config.dart';
 import 'package:client_flutter/services/api_services.dart';
+import 'package:client_flutter/views/Home/AthleteHome/home_page_athlete.dart';
+import 'package:client_flutter/views/Home/TrainerHome/home_page_trainer.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatelessWidget {
@@ -31,84 +34,37 @@ class HomePage extends StatelessWidget {
           )
         ],
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(20.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Text(
-              'Welcome to the Home Page!',
-              style: TextStyle(
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
-                color: Colors.black,
-              ),
-            ),
-            const SizedBox(height: 20),
-            const Text(
-              'You are logged in successfully.',
-              style: TextStyle(
-                fontSize: 18,
-                color: Colors.black54,
-              ),
-            ),
-            const SizedBox(height: 30),
-            ElevatedButton(
-              onPressed: () {
-                print('Navigate to another screen');
-              },
-              child: const Text('Go to Dashboard'),
-            ),
-            const SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: () {
-                print('Navigate to Settings');
-              },
-              child: const Text('Go to Settings'),
-            ),
-            const SizedBox(height: 40),
+      body: FutureBuilder<Map<String, dynamic>>(
+        future: fetchData(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(child: CircularProgressIndicator());
+          } else if (snapshot.hasError) {
+            return Center(child: Text('Error: ${snapshot.error}'));
+          } else if (snapshot.hasData) {
+            final data = snapshot.data ?? {};
+            final role = data['role'] ?? 'unknown';
 
-            // Use FutureBuilder to fetch user info and display role
-            FutureBuilder<Map<String, dynamic>>(
-              future: fetchData(), // Call the fetchUserInfo method
-              builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  // Show loading indicator while waiting
-                  return CircularProgressIndicator();
-                } else if (snapshot.hasError) {
-                  // Display error if fetching fails
-                  return Text('Error: ${snapshot.error}');
-                } else if (snapshot.hasData) {
-                  // Extract role from the fetched user data
-                  final data = snapshot.data ?? {};
-                  final role = data['role'] ?? 'No role available';
-
-                  return Column(
-                    children: [
-                      const Text(
-                        'Your Role:',
-                        style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.black,
-                        ),
-                      ),
-                      Text(
-                        role, // Display the role
-                        style: TextStyle(
-                          fontSize: 18,
-                          color: Colors.black54,
-                        ),
-                      ),
-                    ],
-                  );
-                } else {
-                  return const Text('No user data found');
-                }
-              },
-            ),
-          ],
-        ),
+            if (role == 'ROLE_ATHLETE') {
+              return AthleteHome(
+                data: data,
+              );
+            } else if (role == 'ROLE_TRAINER') {
+              return TrainerHome();
+            } else {
+              return Center(
+                child: Text(
+                  'Unknown role: $role',
+                  style: const TextStyle(fontSize: 18, color: Colors.black54),
+                ),
+              );
+            }
+          } else {
+            return const Center(
+              child: Text('No user data found'),
+            );
+          }
+        },
       ),
     );
   }

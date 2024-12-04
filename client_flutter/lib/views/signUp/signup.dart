@@ -1,7 +1,6 @@
 import 'package:client_flutter/common/colo_extension.dart';
 import 'package:client_flutter/common_widget/round_button.dart';
 import 'package:client_flutter/common_widget/round_textfield.dart';
-import 'package:client_flutter/models/Athlete.dart';
 import 'package:client_flutter/models/User.dart';
 import 'package:client_flutter/services/api_config.dart';
 import 'package:client_flutter/services/api_services.dart';
