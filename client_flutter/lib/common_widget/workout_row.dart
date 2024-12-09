@@ -1,6 +1,7 @@
 import 'dart:convert'; // Import to handle Base64 decoding
 import 'package:client_flutter/common/colo_extension.dart';
 import 'package:client_flutter/models/Program.dart';
+import 'package:client_flutter/views/Home/AthleteHome/exercise_program_page.dart';
 import 'package:flutter/material.dart';
 import 'package:simple_animation_progress_bar/simple_animation_progress_bar.dart';
 
@@ -27,7 +28,7 @@ class WorkoutRow extends StatelessWidget {
           ClipRRect(
             borderRadius: BorderRadius.circular(30),
             child: Image.memory(
-              decodedImage, // Use Image.memory to display Base64 image
+              decodedImage,
               width: 60,
               height: 60,
               fit: BoxFit.cover,
@@ -72,13 +73,22 @@ class WorkoutRow extends StatelessWidget {
             ],
           )),
           IconButton(
-              onPressed: () {},
-              icon: Image.asset(
-                "assets/img/next_icon.png",
-                width: 30,
-                height: 30,
-                fit: BoxFit.contain,
-              ))
+            onPressed: () {
+              print("yes ${wObj.exercises.length}");
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => ExerciseProgramPage(program: wObj),
+                ),
+              );
+            },
+            icon: Image.asset(
+              "assets/img/next_icon.png",
+              width: 30,
+              height: 30,
+              fit: BoxFit.contain,
+            ),
+          )
         ],
       ),
     );

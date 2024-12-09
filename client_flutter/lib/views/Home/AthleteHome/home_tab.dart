@@ -1,3 +1,4 @@
+import 'package:client_flutter/views/Home/AthleteHome/programs_tab.dart';
 import 'package:flutter/material.dart';
 import 'package:client_flutter/common_widget/Athlete_widgets/statistic_card.dart';
 
@@ -25,6 +26,7 @@ class HomeTab extends StatelessWidget {
               _buildStatsCard(media),
               SizedBox(height: media.width * 0.05),
               _buildWorkoutSection(context, media),
+              ProgramsTab()
             ],
           ),
         ),
@@ -48,7 +50,6 @@ class HomeTab extends StatelessWidget {
   }
 
   Widget _buildWorkoutSection(BuildContext context, Size media) {
-    // Accept context here
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [

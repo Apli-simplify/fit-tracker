@@ -1,4 +1,5 @@
 import 'package:client_flutter/helpers/shared_preferences_helper.dart';
+import 'package:client_flutter/views/Home/AthleteHome/exercise_program_page.dart';
 import 'package:client_flutter/views/Home/AthleteHome/programs_tab.dart';
 import 'package:client_flutter/views/Home/home_page.dart';
 import 'package:client_flutter/views/SignIn/login_view.dart';
@@ -9,8 +10,27 @@ void main() {
   runApp(const MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({super.key});
+
+  @override
+  _MyAppState createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  late Future<String?> _initialRoute;
+
+  @override
+  void initState() {
+    super.initState();
+    _initialRoute = _getInitialRoute();
+  }
+
+  Future<String?> _getInitialRoute() async {
+    return await SharedPreferencesHelper.getToken() != null
+        ? '/home'
+        : '/login';
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -21,14 +41,31 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.green),
         useMaterial3: true,
       ),
-      initialRoute:
-          // ignore: unnecessary_null_comparison
-          SharedPreferencesHelper.getToken() != null ? '/home' : '/login',
-      routes: {
-        '/home': (context) => HomePage(),
-        '/login': (context) => LoginView(),
-        '/signup': (context) => SignUpView(),
-      },
+      home: FutureBuilder<String?>(
+        future: _initialRoute,
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return CircularProgressIndicator();
+          } else {
+            return Navigator(
+              initialRoute: snapshot.data,
+              onGenerateRoute: (RouteSettings settings) {
+                switch (settings.name) {
+                  case '/home':
+                    return MaterialPageRoute(builder: (context) => HomePage());
+                  case '/login':
+                    return MaterialPageRoute(builder: (context) => LoginView());
+                  case '/signup':
+                    return MaterialPageRoute(
+                        builder: (context) => SignUpView());
+                  default:
+                    return null;
+                }
+              },
+            );
+          }
+        },
+      ),
     );
   }
 }
