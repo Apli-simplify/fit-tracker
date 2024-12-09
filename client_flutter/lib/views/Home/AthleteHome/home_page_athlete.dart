@@ -1,119 +1,57 @@
-import 'package:client_flutter/models/Program.dart';
-import 'package:client_flutter/services/AthleteServices/athlete_services.dart';
-import 'package:client_flutter/services/api_config.dart';
-import 'package:client_flutter/views/Home/AthleteHome/widgets/home_statistics.dart';
-import 'package:client_flutter/views/cards/program_card.dart';
+import 'package:client_flutter/views/Home/AthleteHome/home_tab.dart';
+import 'package:client_flutter/views/Home/AthleteHome/profile_tab.dart';
+import 'package:client_flutter/views/Home/AthleteHome/programs_tab.dart';
 import 'package:flutter/material.dart';
+import 'package:client_flutter/common_widget/bottom_navigation.dart';
 
-class AthleteHome extends StatelessWidget {
+class HomePageAthlete extends StatefulWidget {
   final Map<String, dynamic> data;
-  final AthleteServices apiService =
-      AthleteServices(baseUrl: ApiConfig.baseUrl);
+  HomePageAthlete({Key? key, required this.data}) : super(key: key);
 
-  AthleteHome({required this.data});
+  @override
+  State<HomePageAthlete> createState() => _HomeViewState();
+}
 
-  Future<List<Program>> getPrograms() async {
-    try {
-      final programData = await apiService.fecthProgramsData();
+class _HomeViewState extends State<HomePageAthlete> {
+  int _currentIndex = 0;
 
-      if (programData is List && programData.isNotEmpty) {
-        List<Program> programs =
-            programData.map((program) => Program.fromJson(program)).toList();
-
-        if (programs.isNotEmpty) {
-          print("name ${programs[0].name} ");
-        }
-
-        return programs;
-      } else {
-        print('No programs available.');
-        return [];
-      }
-    } catch (ex) {
-      print('Error fetching programs: $ex');
-      return [];
-    }
+  void _onItemTapped(int index) {
+    setState(() {
+      _currentIndex = index;
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<List<Program>>(
-      future: getPrograms(),
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return Center(child: CircularProgressIndicator());
-        }
-
-        if (snapshot.hasError) {
-          return Center(child: Text('Error: ${snapshot.error}'));
-        }
-
-        if (snapshot.hasData) {
-          final programs = snapshot.data!;
-          return SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Welcome, ${data['name']}!',
-                        style: const TextStyle(
-                          fontSize: 24,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.black,
-                        ),
-                      ),
-                      const SizedBox(height: 10),
-                      const Text(
-                        'This is your personalized dashboard.',
-                        style: TextStyle(
-                          fontSize: 18,
-                          color: Colors.black54,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                const SizedBox(height: 20),
-                const HomeStatistics(),
-                const SizedBox(height: 20),
-                Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Text(
-                        'Your Programs:',
-                        style: TextStyle(
-                          fontSize: 22,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.black,
-                        ),
-                      ),
-                      const SizedBox(height: 10),
-                      ListView.builder(
-                        shrinkWrap: true,
-                        physics: const NeverScrollableScrollPhysics(),
-                        itemCount: programs.length,
-                        itemBuilder: (context, index) {
-                          final program = programs[index];
-                          return ProgramCard(program: program);
-                        },
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          );
-        }
-
-        return Center(child: Text('No data available.'));
-      },
+    return Scaffold(
+      backgroundColor: Colors.white,
+      body: IndexedStack(
+        index: _currentIndex, // Set the index for the current tab
+        children: <Widget>[
+          // Correct list of child widgets
+          HomeTab(),
+          ProgramsTab(),
+          ProfileTab(),
+        ],
+      ),
+      bottomNavigationBar: CustomBottomNavigationBar(
+        currentIndex: _currentIndex,
+        onItemTapped: _onItemTapped,
+        items: const <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            label: 'Home',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.fitness_center),
+            label: 'Programs',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.account_circle),
+            label: 'Profile',
+          ),
+        ],
+      ),
     );
   }
 }

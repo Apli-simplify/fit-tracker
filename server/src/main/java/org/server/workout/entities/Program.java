@@ -15,17 +15,27 @@ import java.util.Set;
 @AllArgsConstructor
 @Inheritance(strategy = InheritanceType.JOINED)
 public class Program {
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(name = "name",length = 40)
-    String name;
+
+    @Column(name = "name", length = 40, nullable = false)
+    private String name;
+
+    @Column(name = "time")
+    private Integer time;
+    @Lob
+    @Basic(fetch = FetchType.LAZY)
+    @Column(columnDefinition = "TEXT")
+    private String image;
+
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinTable(
             name = "program_exercise",
             joinColumns = @JoinColumn(name = "program_id"),
             inverseJoinColumns = @JoinColumn(name = "exercise_id")
     )
+    @JsonManagedReference
     private Set<Exercise> exercises = new HashSet<>();
-
 }

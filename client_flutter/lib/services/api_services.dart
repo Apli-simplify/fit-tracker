@@ -70,6 +70,7 @@ class ApiService {
     final url = Uri.parse('$baseUrl${ApiConfig.fetchUserDataEndpoint}');
 
     final token = await SharedPreferencesHelper.getToken();
+    print(token);
     if (token == null || token.isEmpty) {
       return {};
     }

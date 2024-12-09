@@ -25,15 +25,11 @@ class _PasswordViewState extends State<PasswordView> {
       if (widget.email.text.isNotEmpty && passwordController.text.isNotEmpty) {
         final response = await widget.apiService
             .login(widget.email.text, passwordController.text);
-
+        print(response);
         if (response['access_token'] != null) {
           SharedPreferencesHelper.saveToken(
               response['access_token'], response['refresh_token']);
-          Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(
-                builder: (context) => HomePage(),
-              ));
+          Navigator.pushNamed(context, '/home');
         } else {
           throw Exception('Login failed');
         }
@@ -119,10 +115,7 @@ class _PasswordViewState extends State<PasswordView> {
                 ),
                 TextButton(
                   onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => SignUpView()),
-                    );
+                    Navigator.pushNamed(context, '/signup');
                   },
                   child: Row(
                     mainAxisSize: MainAxisSize.min,

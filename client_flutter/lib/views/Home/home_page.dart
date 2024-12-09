@@ -1,4 +1,3 @@
-import 'package:client_flutter/models/Athlete.dart';
 import 'package:client_flutter/services/api_config.dart';
 import 'package:client_flutter/services/api_services.dart';
 import 'package:client_flutter/views/Home/AthleteHome/home_page_athlete.dart';
@@ -29,9 +28,9 @@ class HomePage extends StatelessWidget {
           IconButton(
             icon: const Icon(Icons.exit_to_app),
             onPressed: () {
-              Navigator.pop(context);
+              Navigator.pushNamed(context, '/login');
             },
-          )
+          ),
         ],
       ),
       body: FutureBuilder<Map<String, dynamic>>(
@@ -44,12 +43,13 @@ class HomePage extends StatelessWidget {
           } else if (snapshot.hasData) {
             final data = snapshot.data ?? {};
             final role = data['role'] ?? 'unknown';
-
+            print(data);
+            // Athlete role
             if (role == 'ROLE_ATHLETE') {
-              return AthleteHome(
-                data: data,
-              );
-            } else if (role == 'ROLE_TRAINER') {
+              return HomePageAthlete(data: data);
+            }
+            // Trainer role
+            else if (role == 'ROLE_TRAINER') {
               return TrainerHome();
             } else {
               return Center(
