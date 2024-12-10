@@ -6,7 +6,6 @@
   <div class="register-section w-full lg:w-3/4 xl:w-1/2 h-full">
     <div class="content w-full h-full my-12">
       <h2 class="font-bold text-3xl text-center">Create Account</h2>
-
       <div class="w-full h-full">
         <form class="flex flex-col w-full justify-center items-center px-8 pt-6 pb-8 mb-4" [formGroup]="registerForm"
           (ngSubmit)="onSubmit()">
@@ -68,19 +67,6 @@
           </div>
 
           <div class="form-group w-full lg:w-1/2">
-            <label for="type">Type</label>
-            <select class="text-xs border border-gray-300 rounded-md w-full p-2.5 outline-none" formControlName="type"
-              [class.error-border]="type && type.invalid && type.touched">
-              <option value="" disabled selected>Select Type</option>
-              <option value="ATHLETE">Athlete</option>
-              <option value="TRAINER">Trainer</option>
-            </select>
-            <div *ngIf="type?.invalid && type?.touched" class="text-red-500 text-xs">
-              <div *ngIf="type?.errors?.['required']">Type is required.</div>
-            </div>
-          </div>
-
-          <div class="form-group w-full lg:w-1/2">
             <label for="gender">Gender</label>
             <select class="text-xs border border-gray-300 rounded-md w-full p-2.5 outline-none" formControlName="gender"
               [class.error-border]="gender && gender.invalid && gender.touched">
@@ -94,7 +80,20 @@
           </div>
 
           <div class="form-group w-full lg:w-1/2">
-            <button routerLink="/signup/athlete"
+            <label for="type">Type</label>
+            <select class="text-xs border border-gray-300 rounded-md w-full p-2.5 outline-none" formControlName="role"
+              [class.error-border]="role && role.invalid && role.touched">
+              <option value="" disabled selected>Select Type</option>
+              <option value="ROLE_ATHLETE">Athlete</option>
+              <option value="ROLE_TRAINER">Trainer</option>
+            </select>
+            <div *ngIf="role?.invalid && role?.touched" class="text-red-500 text-xs">
+              <div *ngIf="role?.errors?.['required']">Type is required.</div>
+            </div>
+          </div>
+
+          <div class="form-group w-full lg:w-1/2">
+            <button
               class="bg-[#7C4DFF] hover:bg-purple-600 px-20 py-2.5 disabled:cursor-not-allowed disabled:bg-purple-300 text-white font-normal text-xs leading-tight"
               type="submit" [disabled]="registerForm.invalid">
               Create Account

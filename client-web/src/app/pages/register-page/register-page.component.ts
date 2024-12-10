@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { RouterLink } from '@angular/router';
-
-import { NgIf } from '@angular/common';
+import { Router, RouterLink } from '@angular/router';
+import { NgIf, JsonPipe } from '@angular/common';
 import {
   FormBuilder,
   FormGroup,
@@ -9,6 +8,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { CustomValidators } from '../../utils/custom-validator';
+import { AuthService } from '../../services/auth/auth.service';
 
 @Component({
   selector: 'app-register-page',
@@ -20,7 +20,7 @@ import { CustomValidators } from '../../utils/custom-validator';
 export class RegisterPageComponent implements OnInit {
   registerForm!: FormGroup;
 
-  constructor(private fb: FormBuilder) { }
+  constructor(private fb: FormBuilder, private authService: AuthService, private router: Router) { }
 
   ngOnInit() {
     this.registerForm = this.fb.group({
@@ -28,7 +28,7 @@ export class RegisterPageComponent implements OnInit {
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, CustomValidators.passwordStrength()]],
       age: ['', [Validators.required]],
-      type: ['', [Validators.required]],
+      role: ['', [Validators.required]],
       gender: ['', [Validators.required]],
     });
   }
@@ -49,13 +49,32 @@ export class RegisterPageComponent implements OnInit {
     return this.registerForm.get('age');
   }
 
-  get type() {
-    return this.registerForm.get('type');
+  get role() {
+    return this.registerForm.get('role');
   }
 
   get gender() {
     return this.registerForm.get('gender');
   }
 
-  onSubmit() { }
+  onSubmit() {
+    if (this.registerForm.valid) {
+      if (this.registerForm.value.role === 'ROLE_ATHLETE') {
+        this.router.navigate(['/signup/athlete'], { queryParams: { ...this.registerForm.value } });
+        return;
+      }
+      const userData = this.registerForm.value;
+      this.authService.register(userData).subscribe({
+        next: (response) => {
+          console.log('Trainer Registration successful', response);
+          this.router.navigate(['/login']);
+        },
+        error: (err) => {
+          console.error('Registration failed', err);
+        },
+      });
+    } else {
+      console.error('Form is invalid');
+    }
+  }
 }

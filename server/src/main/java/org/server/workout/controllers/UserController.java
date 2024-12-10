@@ -13,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Map;
 @RestController
 @RequestMapping("/api/users")
@@ -25,6 +26,11 @@ public class UserController {
     public ResponseEntity<?> protectedResource() {
         System.out.println("Accessing protected resource");
         return ResponseEntity.ok("This is a protected resource");
+    }
+
+    @GetMapping("/all")
+    public ResponseEntity<?> getAllUsers() {
+        return ResponseEntity.status(200).body(userService.getAllUsers());
     }
 
     @GetMapping("/user-info")
