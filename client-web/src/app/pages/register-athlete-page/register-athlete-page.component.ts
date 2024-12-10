@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { RouterLink } from '@angular/router';
-
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { AuthService } from '../../services/auth/auth.service';
 import { NgIf } from '@angular/common';
 import {
   FormBuilder,
@@ -18,12 +18,13 @@ import {
 export class RegisterAthletePageComponent implements OnInit {
   registerForm!: FormGroup;
 
-  constructor(private fb: FormBuilder) { }
+  constructor(private fb: FormBuilder, private authService: AuthService, private router: Router, private route: ActivatedRoute) { }
 
   ngOnInit() {
     this.registerForm = this.fb.group({
       weight: ['', [Validators.required]],
       height: ['', [Validators.required]],
+      goal: ['', [Validators.required]],
     });
   }
 
@@ -35,5 +36,23 @@ export class RegisterAthletePageComponent implements OnInit {
     return this.registerForm.get('height');
   }
 
-  onSubmit() { }
+  get goal() {
+    return this.registerForm.get('goal');
+  }
+
+  onSubmit() {
+    if (this.registerForm.valid) {
+      const formData = { ...this.route.snapshot.queryParams, ...this.registerForm.value };
+      console.log(formData);
+      this.authService.registerAthlete(formData).subscribe({
+        next: (response) => {
+          console.log('Athlete Registration successful', response);
+          this.router.navigate(['/login']);
+        },
+        error: (err) => {
+          console.error('Registration failed', err);
+        }
+      });
+    }
+  }
 }
