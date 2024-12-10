@@ -26,9 +26,8 @@ class _HomeViewState extends State<HomePageAthlete> {
     return Scaffold(
       backgroundColor: Colors.white,
       body: IndexedStack(
-        index: _currentIndex, // Set the index for the current tab
+        index: _currentIndex,
         children: <Widget>[
-          // Correct list of child widgets
           HomeTab(),
           ProgramsTab(),
           ProfileTab(),

@@ -1,6 +1,4 @@
 import 'package:client_flutter/helpers/shared_preferences_helper.dart';
-import 'package:client_flutter/views/Home/AthleteHome/exercise_program_page.dart';
-import 'package:client_flutter/views/Home/AthleteHome/programs_tab.dart';
 import 'package:client_flutter/views/Home/home_page.dart';
 import 'package:client_flutter/views/SignIn/login_view.dart';
 import 'package:client_flutter/views/signUp/signup.dart';
