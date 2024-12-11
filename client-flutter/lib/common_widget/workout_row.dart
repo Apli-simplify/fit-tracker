@@ -74,7 +74,6 @@ class WorkoutRow extends StatelessWidget {
           )),
           IconButton(
             onPressed: () {
-              print("yes ${wObj.exercises.length}");
               Navigator.push(
                 context,
                 MaterialPageRoute(

@@ -7,7 +7,7 @@ class TrainerHome extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          const Text(
+          Text(
             'Welcome, Trainer!',
             style: TextStyle(
               fontSize: 24,
@@ -15,8 +15,8 @@ class TrainerHome extends StatelessWidget {
               color: Colors.black,
             ),
           ),
-          const SizedBox(height: 20),
-          const Text(
+          SizedBox(height: 20),
+          Text(
             'This is your personalized dashboard.',
             style: TextStyle(
               fontSize: 18,

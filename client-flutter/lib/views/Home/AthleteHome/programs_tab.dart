@@ -24,32 +24,48 @@ class ProgramsTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<List<Program>>(
-      future: getPrograms(),
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return Center(child: CircularProgressIndicator());
-        } else if (snapshot.hasError) {
-          return Center(child: Text("Error loading programs"));
-        } else if (snapshot.hasData) {
-          final programs = snapshot.data!;
-          return ListView.builder(
-            padding: EdgeInsets.zero,
-            shrinkWrap: true,
-            itemCount: programs.length,
-            itemBuilder: (context, index) {
-              return InkWell(
-                onTap: () {
-                  // Handle tap
+    return Column(
+      children: [
+        // Title section
+        const Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Text(
+            'This is Programs',
+            style: TextStyle(
+              fontSize: 24,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ),
+
+        FutureBuilder<List<Program>>(
+          future: getPrograms(),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return Center(child: CircularProgressIndicator());
+            } else if (snapshot.hasError) {
+              return Center(child: Text("Error loading programs"));
+            } else if (snapshot.hasData) {
+              final programs = snapshot.data!;
+              return ListView.builder(
+                padding: EdgeInsets.zero,
+                shrinkWrap: true,
+                itemCount: programs.length,
+                itemBuilder: (context, index) {
+                  return InkWell(
+                    onTap: () {
+                      // Handle tap
+                    },
+                    child: WorkoutRow(wObj: programs[index]),
+                  );
                 },
-                child: WorkoutRow(wObj: programs[index]),
               );
-            },
-          );
-        } else {
-          return Center(child: Text("No programs found."));
-        }
-      },
+            } else {
+              return Center(child: Text("No programs found."));
+            }
+          },
+        ),
+      ],
     );
   }
 }
