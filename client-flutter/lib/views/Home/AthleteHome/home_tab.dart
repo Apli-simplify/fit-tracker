@@ -1,9 +1,11 @@
-import 'package:client_flutter/views/Home/AthleteHome/programs_tab.dart';
 import 'package:flutter/material.dart';
 import 'package:client_flutter/common_widget/Athlete_widgets/statistic_card.dart';
 
 class HomeTab extends StatelessWidget {
-  const HomeTab({super.key});
+  final VoidCallback onSeeMoreTap;
+
+  const HomeTab({Key? key, required this.onSeeMoreTap}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     var media = MediaQuery.of(context).size;
@@ -25,8 +27,7 @@ class HomeTab extends StatelessWidget {
               SizedBox(height: media.width * 0.02),
               _buildStatsCard(media),
               SizedBox(height: media.width * 0.05),
-              _buildWorkoutSection(context, media),
-              ProgramsTab()
+              _buildWorkoutSection(media),
             ],
           ),
         ),
@@ -49,7 +50,7 @@ class HomeTab extends StatelessWidget {
     );
   }
 
-  Widget _buildWorkoutSection(BuildContext context, Size media) {
+  Widget _buildWorkoutSection(Size media) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -59,9 +60,7 @@ class HomeTab extends StatelessWidget {
               color: Colors.black, fontSize: 16, fontWeight: FontWeight.w700),
         ),
         TextButton(
-          onPressed: () {
-            Navigator.pushNamed(context, '/programs');
-          },
+          onPressed: onSeeMoreTap,
           child: const Text(
             "See More",
             style: TextStyle(

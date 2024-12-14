@@ -28,7 +28,7 @@ class _HomeViewState extends State<HomePageAthlete> {
       body: IndexedStack(
         index: _currentIndex,
         children: <Widget>[
-          HomeTab(),
+          HomeTab(onSeeMoreTap: () => _onItemTapped(1)),
           ProgramsTab(),
           ProfileTab(),
         ],
