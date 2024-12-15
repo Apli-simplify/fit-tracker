@@ -1,5 +1,6 @@
 package org.server.workout.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -27,7 +28,5 @@ public class Exercise {
     private String description;
     @Column(name = "video_url", nullable = true, length = 255)
     private String videoUrl;
-    @ManyToMany(mappedBy = "exercises")
-    private Set<Program> programs = new HashSet<>();
 
 }
