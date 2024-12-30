@@ -1,7 +1,7 @@
 import 'package:client_flutter/services/api_config.dart';
 import 'package:client_flutter/services/api_services.dart';
-import 'package:client_flutter/views/Home/AthleteHome/home_page_athlete.dart';
-import 'package:client_flutter/views/Home/TrainerHome/home_page_trainer.dart';
+import 'package:client_flutter/views/UI/Athlete/home_page_athlete.dart';
+import 'package:client_flutter/views/UI/Trainer/home_page_trainer.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatelessWidget {
