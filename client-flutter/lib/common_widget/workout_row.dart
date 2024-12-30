@@ -1,7 +1,7 @@
 import 'dart:convert'; // Import to handle Base64 decoding
 import 'package:client_flutter/common/colo_extension.dart';
 import 'package:client_flutter/models/Program.dart';
-import 'package:client_flutter/views/Home/AthleteHome/exercise_program_page.dart';
+import 'package:client_flutter/views/UI/Athlete/ProgramsTab/exercise_program_page.dart';
 import 'package:flutter/material.dart';
 import 'package:simple_animation_progress_bar/simple_animation_progress_bar.dart';
 

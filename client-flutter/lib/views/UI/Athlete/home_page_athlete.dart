@@ -1,6 +1,6 @@
-import 'package:client_flutter/views/Home/AthleteHome/home_tab.dart';
-import 'package:client_flutter/views/Home/AthleteHome/profile_tab.dart';
-import 'package:client_flutter/views/Home/AthleteHome/programs_tab.dart';
+import 'package:client_flutter/views/UI/Athlete/HomeTab/home_tab.dart';
+import 'package:client_flutter/views/UI/Athlete/ProfileTab/profile_tab.dart';
+import 'package:client_flutter/views/UI/Athlete/ProgramsTab/programs_tab.dart';
 import 'package:flutter/material.dart';
 import 'package:client_flutter/common_widget/bottom_navigation.dart';
 

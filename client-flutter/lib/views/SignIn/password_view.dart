@@ -4,7 +4,7 @@ import 'package:client_flutter/common_widget/round_textfield.dart';
 import 'package:client_flutter/helpers/shared_preferences_helper.dart';
 import 'package:client_flutter/services/api_config.dart';
 import 'package:client_flutter/services/api_services.dart';
-import 'package:client_flutter/views/Home/home_page.dart';
+import 'package:client_flutter/views/UI/home_page.dart';
 import 'package:client_flutter/views/signUp/signup.dart';
 import 'package:flutter/material.dart';
 
