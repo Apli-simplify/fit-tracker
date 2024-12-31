@@ -33,16 +33,16 @@ class _ExerciseDetailsState extends State<ExerciseDetails> {
     _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
       setState(() {
         if (remainingTime > 0) {
-          remainingTime--; // Decrement remaining time
+          remainingTime--;
         } else {
-          _stopTimer(); // Stop the timer when time is up
+          _stopTimer();
         }
       });
     });
   }
 
   void _stopTimer() {
-    _timer?.cancel(); // Cancel the timer
+    _timer?.cancel();
     if (remainingTime > 0) {
       print("Remaining time: ${_formatDuration(remainingTime)}");
       ScaffoldMessenger.of(context).showSnackBar(
@@ -136,9 +136,9 @@ class _ExerciseDetailsState extends State<ExerciseDetails> {
             setState(() {
               isStarted = !isStarted;
               if (isStarted) {
-                _startTimer(); // Start the timer
+                _startTimer();
               } else {
-                _stopTimer(); // Stop the timer
+                _stopTimer();
               }
             });
           },

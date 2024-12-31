@@ -29,7 +29,6 @@ class ProgramsTab extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        // Button to planify a training session
         Padding(
           padding: const EdgeInsets.all(16.0),
           child: ElevatedButton(
