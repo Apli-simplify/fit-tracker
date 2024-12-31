@@ -3,6 +3,7 @@ package org.server.workout.controllers;
 import jakarta.servlet.http.HttpServletRequest;
 import org.server.workout.dto.CustomProgramDto;
 import org.server.workout.entities.*;
+import org.server.workout.dto.ProgramDto;
 import org.server.workout.exceptions.specifics.ResourceAlreadyExistException;
 import org.server.workout.exceptions.specifics.ResourceNotFoundException;
 import org.server.workout.helpers.JwtUtil;
@@ -118,4 +119,9 @@ public class ProgramController {
         }
     }
 
+    @PostMapping("/add")
+    public ResponseEntity<Program> addProgram(@RequestBody ProgramDto programDto) {
+        Program program = programService.addProgram(programDto);
+        return ResponseEntity.status(HttpStatus.CREATED).body(program);
+    }
 }
