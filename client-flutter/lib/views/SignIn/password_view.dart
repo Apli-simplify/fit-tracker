@@ -27,8 +27,8 @@ class _PasswordViewState extends State<PasswordView> {
             .login(widget.email.text, passwordController.text);
         print(response);
         if (response['access_token'] != null) {
-          SharedPreferencesHelper.saveToken(response['access_token'],
-              response['refresh_token'], response['id']);
+          SharedPreferencesHelper.saveToken(
+              response['access_token'], response['refresh_token']);
           Navigator.pushNamed(context, '/home');
         } else {
           throw Exception('Login failed');

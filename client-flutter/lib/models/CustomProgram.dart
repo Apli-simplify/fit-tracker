@@ -1,18 +1,14 @@
-import 'package:client_flutter/models/Athlete.dart';
 import 'package:client_flutter/models/Exercise.dart';
 import 'package:client_flutter/models/Program.dart';
 
 class Customprogram extends Program {
   final String? status;
-  final Athlete? athlete;
-
   Customprogram({
     int? id,
     required String name,
     required String image,
     required List<Exercise> exercises,
     this.status,
-    this.athlete,
   }) : super(
           id: id,
           name: name,
@@ -30,8 +26,6 @@ class Customprogram extends Program {
               (exercise) => Exercise.fromJson(exercise as Map<String, dynamic>))
           .toList(),
       status: json['status'] as String?,
-      athlete:
-          json['athlete'] != null ? Athlete.fromJson(json['athlete']) : null,
     );
   }
 }

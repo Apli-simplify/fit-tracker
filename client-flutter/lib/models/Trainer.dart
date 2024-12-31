@@ -4,7 +4,7 @@ class Trainer extends User {
   bool availableStatus;
 
   Trainer({
-    String? id,
+    int? id,
     String? name,
     required String email,
     String? password,

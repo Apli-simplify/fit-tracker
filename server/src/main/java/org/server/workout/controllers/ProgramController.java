@@ -95,4 +95,27 @@ public class ProgramController {
         }
         return ResponseEntity.ok(programs.get());
     }
+    @PutMapping("/status/{id}")
+    public ResponseEntity<List<Program>> changeStatus(@PathVariable Long id) {
+        Optional<Program> optionalProgram = programRepository.findById(id);
+
+        if (optionalProgram.isEmpty()) {
+            throw new ResourceNotFoundException("Program not found");
+        }
+
+        Program program = optionalProgram.get();
+
+        if (program instanceof Customprogram customProgram) {
+
+            customProgram.setStatus("Active");
+
+            programRepository.save(customProgram);
+
+            List<Program> programs = programRepository.findAll();
+            return ResponseEntity.ok(programs);
+        } else {
+            throw new ResourceNotFoundException("CustomProgram not found for the provided ID");
+        }
+    }
+
 }

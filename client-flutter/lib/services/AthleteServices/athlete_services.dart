@@ -108,4 +108,36 @@ class AthleteServices {
       throw Exception('Error creating custom program: $e');
     }
   }
+
+  Future<dynamic> changeStatusCustom(Customprogram customProgram) async {
+    final url = Uri.parse(
+        '$baseUrl${ApiConfig.updateCustomProgram}/${customProgram.id}');
+
+    final token = await SharedPreferencesHelper.getToken();
+    if (token == null || token.isEmpty) {
+      throw Exception('Authentication token is missing');
+    }
+
+    final headers = {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer $token',
+    };
+
+    final body = jsonEncode({
+      'status': customProgram.status,
+    });
+
+    try {
+      final response = await http.put(url, headers: headers, body: body);
+
+      if (response.statusCode == 200) {
+        return jsonDecode(response.body);
+      } else {
+        throw Exception(
+            'Failed to change custom program status: ${response.statusCode} ${response.body}');
+      }
+    } catch (e) {
+      throw Exception('Error changing custom program status: $e');
+    }
+  }
 }

@@ -1,3 +1,4 @@
+import 'package:client_flutter/models/CustomProgram.dart';
 import 'package:flutter/material.dart';
 import 'package:client_flutter/models/Program.dart';
 import 'package:client_flutter/services/AthleteServices/athlete_services.dart';
@@ -14,7 +15,9 @@ class MyPlansTab extends StatelessWidget {
     try {
       final programData = await apiService.fecthProgramsDataCustoms();
       if (programData is List && programData.isNotEmpty) {
-        return programData.map((program) => Program.fromJson(program)).toList();
+        return programData
+            .map((program) => Customprogram.fromJson(program))
+            .toList();
       } else {
         return [];
       }

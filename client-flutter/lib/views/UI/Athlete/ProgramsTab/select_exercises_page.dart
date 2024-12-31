@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:client_flutter/helpers/shared_preferences_helper.dart';
-import 'package:client_flutter/models/Athlete.dart';
 import 'package:client_flutter/models/CustomProgram.dart';
 import 'package:client_flutter/models/Exercise.dart';
 import 'package:client_flutter/services/AthleteServices/athlete_services.dart';
@@ -59,15 +57,6 @@ class _SelectExercisesPageState extends State<SelectExercisesPage> {
 
   void _saveTrainingSession(DateTime date) async {
     try {
-      final id = await SharedPreferencesHelper.getId();
-
-      if (id == null) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('No athlete ID found')),
-        );
-        return;
-      }
-
       if (_titleController.text.isEmpty) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
@@ -77,20 +66,11 @@ class _SelectExercisesPageState extends State<SelectExercisesPage> {
       }
 
       Customprogram customProgram = Customprogram(
+        id: 12,
         name: _titleController.text,
         image: _imageUrl ?? "image",
         exercises: _selectedExercises,
-        athlete: Athlete(
-            id: id,
-            age: 0,
-            email: "",
-            gender: "",
-            goal: "",
-            height: 0,
-            name: "",
-            password: "",
-            weight: 0),
-        status: "Active",
+        status: "Inactive",
       );
 
       await apiService.createCustomProgram(customProgram);
