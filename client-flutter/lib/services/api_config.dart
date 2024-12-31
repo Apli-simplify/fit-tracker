@@ -9,4 +9,5 @@ class ApiConfig {
   static const String createCustomProgramEndPoint = "programs/save";
   static const String fetchProgramsCustomsDataEndPoint = "programs/customs";
   static const String updateCustomProgram = "programs/status";
+  static const String updateAthlete = "athlete/update/";
 }

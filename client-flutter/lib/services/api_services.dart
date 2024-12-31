@@ -88,4 +88,26 @@ class ApiService {
       throw Exception('Failed to fetch data: ${response.body}');
     }
   }
+
+  Future<void> updateAthlete(int id, Map<String, dynamic> updatedData) async {
+    final url = Uri.parse('$baseUrl${ApiConfig.updateAthlete}$id');
+
+    final token = await SharedPreferencesHelper.getToken();
+    if (token == null || token.isEmpty) {
+      throw Exception('User is not authenticated');
+    }
+
+    final response = await http.put(
+      url,
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer $token',
+      },
+      body: jsonEncode(updatedData),
+    );
+
+    if (response.statusCode != 200) {
+      throw Exception('Failed to update profile: ${response.body}');
+    }
+  }
 }

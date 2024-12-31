@@ -12,7 +12,7 @@ class Trainer extends User {
     int? age,
     this.availableStatus = true,
   }) : super(
-            id: id,
+            id: id?.toString(),
             name: name,
             email: email,
             password: password,
