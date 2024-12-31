@@ -1,7 +1,7 @@
+import 'package:flutter/material.dart';
 import 'package:client_flutter/helpers/shared_preferences_helper.dart';
 import 'package:client_flutter/models/Athlete.dart';
 import 'package:client_flutter/models/CustomProgram.dart';
-import 'package:flutter/material.dart';
 import 'package:client_flutter/models/Exercise.dart';
 import 'package:client_flutter/services/AthleteServices/athlete_services.dart';
 import 'package:client_flutter/services/api_config.dart';
@@ -16,13 +16,16 @@ class SelectExercisesPage extends StatefulWidget {
 class _SelectExercisesPageState extends State<SelectExercisesPage> {
   final AthleteServices apiService =
       AthleteServices(baseUrl: ApiConfig.baseUrl);
-  List<Exercise> _selectedExercises = []; // List to store selected exercises
+  List<Exercise> _selectedExercises = [];
   late Future<List<Exercise>> _exercisesFuture;
+  String? _imageUrl; // Store the image URL
+  final TextEditingController _titleController = TextEditingController();
+  final TextEditingController _imageUrlController = TextEditingController();
 
   @override
   void initState() {
     super.initState();
-    _exercisesFuture = getExercises(); // Fetch exercises when the page loads
+    _exercisesFuture = getExercises();
   }
 
   Future<List<Exercise>> getExercises() async {
@@ -49,7 +52,6 @@ class _SelectExercisesPageState extends State<SelectExercisesPage> {
       lastDate: DateTime.now().add(const Duration(days: 365)),
     ).then((selectedDate) {
       if (selectedDate != null) {
-        // Save the session with selected exercises and date
         _saveTrainingSession(selectedDate);
       }
     });
@@ -57,13 +59,8 @@ class _SelectExercisesPageState extends State<SelectExercisesPage> {
 
   void _saveTrainingSession(DateTime date) async {
     try {
-      print('Selected Exercises: $_selectedExercises');
-      print('Selected Date: $date');
-
-      // Retrieve athlete ID from shared preferences
       final id = await SharedPreferencesHelper.getId();
 
-      // Ensure that the ID is not null
       if (id == null) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('No athlete ID found')),
@@ -71,10 +68,17 @@ class _SelectExercisesPageState extends State<SelectExercisesPage> {
         return;
       }
 
-      // Create the custom program object with the athlete's ID
+      if (_titleController.text.isEmpty) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+              content: Text('Please enter a title for the custom program')),
+        );
+        return;
+      }
+
       Customprogram customProgram = Customprogram(
-        name: "customOne",
-        image: "image", // Assuming image is a string URL or path
+        name: _titleController.text,
+        image: _imageUrl ?? "image", // Use the image URL entered by the user
         exercises: _selectedExercises,
         athlete: Athlete(
             id: id,
@@ -85,15 +89,12 @@ class _SelectExercisesPageState extends State<SelectExercisesPage> {
             height: 12,
             name: "",
             password: "",
-            weight: 12), // Send the athlete ID here
-        status: "Active", // Default status
+            weight: 12),
+        status: "Active",
       );
-      print("This is the ID: $id");
 
-      // Call your function to create the custom program on the backend
       await apiService.createCustomProgram(customProgram);
 
-      // Return to the previous page
       Navigator.of(context).pop();
     } catch (e) {
       print('Error saving custom program: $e');
@@ -113,51 +114,92 @@ class _SelectExercisesPageState extends State<SelectExercisesPage> {
             onPressed: _selectedExercises.isEmpty
                 ? null
                 : () {
-                    _showDatePicker(); // Show date picker
+                    _showDatePicker();
                   },
             icon: const Icon(Icons.check),
           ),
         ],
       ),
-      body: FutureBuilder<List<Exercise>>(
-        future: _exercisesFuture,
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(child: CircularProgressIndicator());
-          } else if (snapshot.hasError) {
-            return const Center(child: Text('Failed to load exercises.'));
-          } else if (snapshot.hasData && snapshot.data!.isNotEmpty) {
-            final exercises = snapshot.data!;
-            return ListView.builder(
-              padding: const EdgeInsets.all(16),
-              itemCount: exercises.length,
-              itemBuilder: (context, index) {
-                final exercise = exercises[index];
-                return CardExercise(
-                  exercise: exercise,
-                  isSelected: _selectedExercises.contains(exercise),
-                  onTap: () {
-                    setState(() {
-                      if (_selectedExercises.contains(exercise)) {
-                        _selectedExercises.remove(exercise); // Deselect
-                      } else {
-                        _selectedExercises.add(exercise); // Select
-                      }
-                    });
-                  },
-                );
+      body: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: TextField(
+              controller: _titleController,
+              decoration: InputDecoration(
+                labelText: 'Program Title',
+                border: OutlineInputBorder(),
+              ),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: TextField(
+              controller: _imageUrlController,
+              decoration: InputDecoration(
+                labelText: 'Image URL',
+                border: OutlineInputBorder(),
+              ),
+              onChanged: (value) {
+                setState(() {
+                  _imageUrl =
+                      value; // Update the image URL when the text changes
+                });
               },
-            );
-          } else {
-            return const Center(child: Text('No exercises found.'));
-          }
-        },
+            ),
+          ),
+          if (_imageUrl != null && _imageUrl!.isNotEmpty)
+            Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Image.network(
+                _imageUrl!,
+                height: 100,
+                width: 100,
+                fit: BoxFit.cover,
+              ),
+            ),
+          Expanded(
+            child: FutureBuilder<List<Exercise>>(
+              future: _exercisesFuture,
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return const Center(child: CircularProgressIndicator());
+                } else if (snapshot.hasError) {
+                  return const Center(child: Text('Failed to load exercises.'));
+                } else if (snapshot.hasData && snapshot.data!.isNotEmpty) {
+                  final exercises = snapshot.data!;
+                  return ListView.builder(
+                    padding: const EdgeInsets.all(16),
+                    itemCount: exercises.length,
+                    itemBuilder: (context, index) {
+                      final exercise = exercises[index];
+                      return CardExercise(
+                        exercise: exercise,
+                        isSelected: _selectedExercises.contains(exercise),
+                        onTap: () {
+                          setState(() {
+                            if (_selectedExercises.contains(exercise)) {
+                              _selectedExercises.remove(exercise);
+                            } else {
+                              _selectedExercises.add(exercise);
+                            }
+                          });
+                        },
+                      );
+                    },
+                  );
+                } else {
+                  return const Center(child: Text('No exercises found.'));
+                }
+              },
+            ),
+          ),
+        ],
       ),
     );
   }
 }
 
-// CardExercise widget to display individual exercises
 class CardExercise extends StatelessWidget {
   final Exercise exercise;
   final bool isSelected;

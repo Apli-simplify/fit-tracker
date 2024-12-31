@@ -92,5 +92,13 @@ public class ProgramController {
         return ResponseEntity.status(HttpStatus.CREATED).body(savedProgram);
     }
 
+    @GetMapping("/customs")
+    public ResponseEntity<List<Program>> getAllProgramsCustoms() {
+        Optional<List<Program>> programs = programService.GetProgramsCustoms();
 
+        if (programs.isEmpty() || programs.get().isEmpty()) {
+            throw new ResourceNotFoundException("Programs not found");
+        }
+        return ResponseEntity.ok(programs.get());
+    }
 }

@@ -7,4 +7,5 @@ import java.util.Optional;
 
 public interface ProgramService {
     Optional<List<Program>> GetPrograms();
+    Optional<List<Program>> GetProgramsCustoms();
 }

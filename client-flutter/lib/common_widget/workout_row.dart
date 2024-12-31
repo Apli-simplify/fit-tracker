@@ -1,4 +1,3 @@
-import 'dart:convert'; // Import to handle Base64 decoding
 import 'package:client_flutter/common/colo_extension.dart';
 import 'package:client_flutter/models/Program.dart';
 import 'package:client_flutter/views/UI/Athlete/ProgramsTab/exercise_program_page.dart';
@@ -10,9 +9,6 @@ class WorkoutRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Decode the Base64 string
-    final decodedImage = base64Decode(wObj.image.toString());
-
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 2),
       padding: const EdgeInsets.all(15),
@@ -27,8 +23,8 @@ class WorkoutRow extends StatelessWidget {
         children: [
           ClipRRect(
             borderRadius: BorderRadius.circular(15),
-            child: Image.memory(
-              decodedImage,
+            child: Image.network(
+              wObj.image.toString(), // Use the URL directly here
               width: 60,
               height: 60,
               fit: BoxFit.cover,

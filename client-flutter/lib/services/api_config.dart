@@ -7,4 +7,5 @@ class ApiConfig {
   static const String fetchProgramsDataEndPoint = "programs";
   static const String fetchExercisesDataEndPoint = "exercises";
   static const String createCustomProgramEndPoint = "programs/save";
+  static const String fetchProgramsCustomsDataEndPoint = "programs/customs";
 }

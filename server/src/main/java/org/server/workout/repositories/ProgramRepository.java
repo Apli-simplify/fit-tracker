@@ -11,4 +11,6 @@ import java.util.List;
 public interface ProgramRepository extends JpaRepository<Program, Long> {
     @Query("SELECT p FROM Program p WHERE TYPE(p) = Program")
     List<Program> findNonCustomPrograms();
+    @Query("SELECT p FROM Program p WHERE TYPE(p) = Customprogram ")
+    List<Program> findCustomPrograms();
 }

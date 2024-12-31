@@ -30,6 +30,29 @@ class AthleteServices {
     }
   }
 
+  Future<dynamic> fecthProgramsDataCustoms() async {
+    final url =
+        Uri.parse('$baseUrl${ApiConfig.fetchProgramsCustomsDataEndPoint}');
+
+    final token = await SharedPreferencesHelper.getToken();
+    if (token == null || token.isEmpty) {
+      return {};
+    }
+    final response = await http.get(
+      url,
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer $token',
+      },
+    );
+
+    if (response.statusCode == 200) {
+      return jsonDecode(response.body);
+    } else {
+      throw Exception('Failed to fetch data: ${response.body}');
+    }
+  }
+
   Future<dynamic> fecthAllExercisesData() async {
     final url = Uri.parse('$baseUrl${ApiConfig.fetchExercisesDataEndPoint}');
 
@@ -61,13 +84,11 @@ class AthleteServices {
       throw Exception('Authentication token is missing');
     }
 
-    // Prepare headers and body
     final headers = {
       'Content-Type': 'application/json',
       'Authorization': 'Bearer $token',
     };
 
-    // Prepare the request body
     final body = jsonEncode({
       'name': customProgram.name,
       'image': customProgram.image,
@@ -76,12 +97,10 @@ class AthleteServices {
     });
     print(body);
     try {
-      // Make the HTTP POST request
       final response = await http.post(url, headers: headers, body: body);
 
-      // Handle response
       if (response.statusCode == 201) {
-        return jsonDecode(response.body); // Return created resource
+        return jsonDecode(response.body);
       } else {
         throw Exception(
             'Failed to create custom program: ${response.statusCode} ${response.body}');
