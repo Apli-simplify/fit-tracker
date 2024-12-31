@@ -63,16 +63,17 @@ class WorkoutRow extends StatelessWidget {
               ],
             ),
           ),
-          IconButton(
-            onPressed: () async {
-              await apiService.changeStatusCustom(wObj as Customprogram);
-            },
-            icon: Icon(
-              Icons.play_arrow,
-              color: TColor.primaryColor2,
-              size: 24,
+          if (wObj is Customprogram)
+            IconButton(
+              onPressed: () async {
+                await apiService.changeStatusCustom(wObj as Customprogram);
+              },
+              icon: Icon(
+                Icons.play_arrow,
+                color: TColor.primaryColor2,
+                size: 24,
+              ),
             ),
-          ),
           IconButton(
             onPressed: () {
               Navigator.push(
