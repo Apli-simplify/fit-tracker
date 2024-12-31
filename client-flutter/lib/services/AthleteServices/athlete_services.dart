@@ -78,7 +78,6 @@ class AthleteServices {
   Future<dynamic> createCustomProgram(Customprogram customProgram) async {
     final url = Uri.parse('$baseUrl${ApiConfig.createCustomProgramEndPoint}');
 
-    // Retrieve the authentication token
     final token = await SharedPreferencesHelper.getToken();
     if (token == null || token.isEmpty) {
       throw Exception('Authentication token is missing');

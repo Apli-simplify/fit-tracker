@@ -18,7 +18,7 @@ class _SelectExercisesPageState extends State<SelectExercisesPage> {
       AthleteServices(baseUrl: ApiConfig.baseUrl);
   List<Exercise> _selectedExercises = [];
   late Future<List<Exercise>> _exercisesFuture;
-  String? _imageUrl; // Store the image URL
+  String? _imageUrl;
   final TextEditingController _titleController = TextEditingController();
   final TextEditingController _imageUrlController = TextEditingController();
 
@@ -78,18 +78,18 @@ class _SelectExercisesPageState extends State<SelectExercisesPage> {
 
       Customprogram customProgram = Customprogram(
         name: _titleController.text,
-        image: _imageUrl ?? "image", // Use the image URL entered by the user
+        image: _imageUrl ?? "image",
         exercises: _selectedExercises,
         athlete: Athlete(
             id: id,
             age: 0,
             email: "",
-            gender: "hamza",
+            gender: "",
             goal: "",
-            height: 12,
+            height: 0,
             name: "",
             password: "",
-            weight: 12),
+            weight: 0),
         status: "Active",
       );
 
@@ -142,8 +142,7 @@ class _SelectExercisesPageState extends State<SelectExercisesPage> {
               ),
               onChanged: (value) {
                 setState(() {
-                  _imageUrl =
-                      value; // Update the image URL when the text changes
+                  _imageUrl = value;
                 });
               },
             ),

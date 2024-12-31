@@ -56,7 +56,6 @@ public class ProgramController {
             return ResponseEntity.badRequest().body("Custom program data is required.");
         }
 
-        // Check if the athlete exists
         Optional<User> athleteOpt = userRepository.findById(athleteId);
         if (athleteOpt.isEmpty()) {
             return ResponseEntity.badRequest().body("Athlete not found.");
@@ -64,21 +63,17 @@ public class ProgramController {
 
         Athlete athlete = (Athlete) athleteOpt.get();
 
-        // Handle exercises
         Set<Exercise> exercises = new HashSet<>();
         for (Exercise exercise : customProgramDto.getExercises()) {
             if (exercise.getId() != null) {
-                // Fetch the exercise from the database if it has an ID
                 Optional<Exercise> existingExercise = exerciseRepository.findById(exercise.getId());
                 existingExercise.ifPresent(exercises::add);
             } else {
-                // Save new exercises
                 Exercise savedExercise = exerciseRepository.save(exercise);
                 exercises.add(savedExercise);
             }
         }
 
-        // Create the Customprogram entity
         Customprogram customProgram = new Customprogram();
         customProgram.setName(customProgramDto.getName());
         customProgram.setImage(customProgramDto.getImage());
@@ -86,7 +81,6 @@ public class ProgramController {
         customProgram.setExercises(exercises);
         customProgram.setAthlete(athlete);
 
-        // Save the Customprogram entity
         Program savedProgram = programRepository.save(customProgram);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(savedProgram);
