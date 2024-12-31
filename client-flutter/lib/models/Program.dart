@@ -1,7 +1,7 @@
 import 'package:client_flutter/models/Exercise.dart';
 
 class Program {
-  final int id;
+  final int? id;
   final String name;
   final String image;
   final List<Exercise> exercises;

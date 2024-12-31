@@ -1,8 +1,11 @@
+import 'package:client_flutter/common/colo_extension.dart';
+import 'package:client_flutter/helpers/shared_preferences_helper.dart';
 import 'package:client_flutter/services/api_config.dart';
 import 'package:client_flutter/services/api_services.dart';
 import 'package:client_flutter/views/UI/Athlete/home_page_athlete.dart';
 import 'package:client_flutter/views/UI/Trainer/home_page_trainer.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class HomePage extends StatelessWidget {
   final ApiService apiService = ApiService(baseUrl: ApiConfig.baseUrl);
@@ -22,13 +25,14 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Home'),
-        backgroundColor: Colors.blue,
+        title: const Text('Fit-Track', style: TextStyle(color: Colors.white)),
+        backgroundColor: TColor.primaryColor1,
         automaticallyImplyLeading: false,
         actions: [
           IconButton(
             icon: const Icon(Icons.exit_to_app),
-            onPressed: () {
+            onPressed: () async {
+              await SharedPreferencesHelper.clearTokens();
               Navigator.pushNamed(context, '/login');
             },
           ),

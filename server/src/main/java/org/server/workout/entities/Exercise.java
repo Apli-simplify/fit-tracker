@@ -17,16 +17,23 @@ public class Exercise {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "id", nullable = false)
-    private int id;
+    private Long id;
+
     @Column(name = "name", nullable = false, length = 100)
     private String name;
+
     @Column(name = "target_area", nullable = true, length = 100)
     private String targetArea;
+
     @Column(name = "difficulty", nullable = true, length = 50)
     private String difficulty;
+
     @Column(name = "description", nullable = true, length = -1)
     private String description;
+
     @Column(name = "video_url", nullable = true, length = 255)
     private String videoUrl;
 
+    @Column(name = "duration", nullable = true)
+    private Integer duration; // Duration in seconds
 }

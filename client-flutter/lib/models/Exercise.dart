@@ -5,7 +5,7 @@ class Exercise {
   final String difficulty;
   final String description;
   final String videoUrl;
-
+  final int duration;
   Exercise({
     required this.id,
     required this.name,
@@ -13,6 +13,7 @@ class Exercise {
     required this.difficulty,
     required this.description,
     required this.videoUrl,
+    required this.duration,
   });
 
   factory Exercise.fromJson(Map<String, dynamic> json) {
@@ -23,6 +24,15 @@ class Exercise {
       difficulty: json['difficulty'],
       description: json['description'],
       videoUrl: json['videoUrl'],
+      duration: json['duration'],
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'name': name,
+      'description': description,
+    };
   }
 }

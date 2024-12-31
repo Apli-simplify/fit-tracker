@@ -39,6 +39,7 @@ public class AthleteServiceImpl implements AthleteService {
             return AuthenticationResponse.builder()
                     .accessToken(jwtToken)
                     .refreshToken(refreshToken)
+                    .id(savedUser.getId())
                     .build();
     }
 }

@@ -59,10 +59,11 @@ public class UserServiceImpl implements UserService {
         CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
         String jwtToken = jwtUtil.generateToken(userDetails);
         String refreshToken = jwtUtil.generateRefreshToken(userDetails);
-
+        User user = userRepository.findByEmail(userDto.getEmail());
         return AuthenticationResponse.builder()
                 .accessToken(jwtToken)
                 .refreshToken(refreshToken)
+                .id(user.getId())
                 .build();
     }
 

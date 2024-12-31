@@ -1,24 +1,24 @@
 import 'package:client_flutter/models/User.dart';
 
 class Athlete extends User {
-  double weight;
-  double height;
-  String goal;
+  double? weight;
+  double? height;
+  String? goal;
 
   Athlete(
-      {int? id,
+      {String? id,
       String? name,
-      required String email,
+      String? email,
       String? password,
       String? gender,
-      required this.weight,
-      required this.height,
-      required this.goal,
+      this.weight,
+      this.height,
+      this.goal,
       int? age})
       : super(
             id: id,
             name: name,
-            email: email,
+            email: email!,
             password: password,
             gender: gender,
             age: age);

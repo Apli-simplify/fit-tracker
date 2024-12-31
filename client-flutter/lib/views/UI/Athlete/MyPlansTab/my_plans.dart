@@ -1,21 +1,23 @@
+import 'package:client_flutter/models/CustomProgram.dart';
 import 'package:flutter/material.dart';
 import 'package:client_flutter/models/Program.dart';
 import 'package:client_flutter/services/AthleteServices/athlete_services.dart';
 import 'package:client_flutter/services/api_config.dart';
 import 'package:client_flutter/common_widget/workout_row.dart';
-import 'select_exercises_page.dart'; // Import the new page
 
-class ProgramsTab extends StatelessWidget {
+class MyPlansTab extends StatelessWidget {
   final AthleteServices apiService =
       AthleteServices(baseUrl: ApiConfig.baseUrl);
 
-  ProgramsTab({super.key});
+  MyPlansTab({super.key});
 
-  Future<List<Program>> getPrograms() async {
+  Future<List<Program>> getProgramsCustoms() async {
     try {
-      final programData = await apiService.fecthProgramsData();
+      final programData = await apiService.fecthProgramsDataCustoms();
       if (programData is List && programData.isNotEmpty) {
-        return programData.map((program) => Program.fromJson(program)).toList();
+        return programData
+            .map((program) => Customprogram.fromJson(program))
+            .toList();
       } else {
         return [];
       }
@@ -29,39 +31,9 @@ class ProgramsTab extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: ElevatedButton(
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const SelectExercisesPage(),
-                ),
-              );
-            },
-            style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.purple,
-              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10),
-              ),
-            ),
-            child: const Text(
-              'Planify a Training Session',
-              style: TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.bold,
-                color: Colors.white,
-              ),
-            ),
-          ),
-        ),
-
-        // List of programs
         Expanded(
           child: FutureBuilder<List<Program>>(
-            future: getPrograms(),
+            future: getProgramsCustoms(),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return const Center(child: CircularProgressIndicator());
@@ -74,9 +46,7 @@ class ProgramsTab extends StatelessWidget {
                   itemCount: programs.length,
                   itemBuilder: (context, index) {
                     return InkWell(
-                      onTap: () {
-                        // Handle program tap if needed
-                      },
+                      onTap: () {},
                       child: WorkoutRow(wObj: programs[index]),
                     );
                   },
