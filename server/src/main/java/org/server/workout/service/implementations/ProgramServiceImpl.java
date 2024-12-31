@@ -17,7 +17,7 @@ public class ProgramServiceImpl implements ProgramService {
 
     @Override
     public Optional<List<Program>> GetPrograms() {
-        List<Program> programs = programRepository.findAll();
+        List<Program> programs = programRepository.findNonCustomPrograms();
         return Optional.ofNullable(programs.isEmpty() ? null : programs);
     }
 }
