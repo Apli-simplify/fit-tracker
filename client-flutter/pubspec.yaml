@@ -34,7 +34,7 @@ dependencies:
   simple_animation_progress_bar: ^1.6.0
   simple_circular_progress_bar: ^1.0.2
   animated_toggle_switch: ^0.8.3
-
+  url_launcher: 
 dev_dependencies:
   flutter_test:
     sdk: flutter

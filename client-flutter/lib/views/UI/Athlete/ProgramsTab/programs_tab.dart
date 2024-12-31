@@ -3,10 +3,13 @@ import 'package:client_flutter/models/Program.dart';
 import 'package:client_flutter/services/AthleteServices/athlete_services.dart';
 import 'package:client_flutter/services/api_config.dart';
 import 'package:client_flutter/common_widget/workout_row.dart';
+import 'select_exercises_page.dart'; // Import the new page
 
 class ProgramsTab extends StatelessWidget {
   final AthleteServices apiService =
       AthleteServices(baseUrl: ApiConfig.baseUrl);
+
+  ProgramsTab({super.key});
 
   Future<List<Program>> getPrograms() async {
     try {
@@ -26,44 +29,64 @@ class ProgramsTab extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        // Title section
-        const Padding(
+        // Button to planify a training session
+        Padding(
           padding: const EdgeInsets.all(16.0),
-          child: Text(
-            'This is Programs',
-            style: TextStyle(
-              fontSize: 24,
-              fontWeight: FontWeight.bold,
+          child: ElevatedButton(
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const SelectExercisesPage(),
+                ),
+              );
+            },
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.purple,
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10),
+              ),
+            ),
+            child: const Text(
+              'Planify a Training Session',
+              style: TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+                color: Colors.white,
+              ),
             ),
           ),
         ),
 
-        FutureBuilder<List<Program>>(
-          future: getPrograms(),
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return Center(child: CircularProgressIndicator());
-            } else if (snapshot.hasError) {
-              return Center(child: Text("Error loading programs"));
-            } else if (snapshot.hasData) {
-              final programs = snapshot.data!;
-              return ListView.builder(
-                padding: EdgeInsets.zero,
-                shrinkWrap: true,
-                itemCount: programs.length,
-                itemBuilder: (context, index) {
-                  return InkWell(
-                    onTap: () {
-                      // Handle tap
-                    },
-                    child: WorkoutRow(wObj: programs[index]),
-                  );
-                },
-              );
-            } else {
-              return Center(child: Text("No programs found."));
-            }
-          },
+        // List of programs
+        Expanded(
+          child: FutureBuilder<List<Program>>(
+            future: getPrograms(),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return const Center(child: CircularProgressIndicator());
+              } else if (snapshot.hasError) {
+                return const Center(child: Text("Error loading programs"));
+              } else if (snapshot.hasData && snapshot.data!.isNotEmpty) {
+                final programs = snapshot.data!;
+                return ListView.builder(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  itemCount: programs.length,
+                  itemBuilder: (context, index) {
+                    return InkWell(
+                      onTap: () {
+                        // Handle program tap if needed
+                      },
+                      child: WorkoutRow(wObj: programs[index]),
+                    );
+                  },
+                );
+              } else {
+                return const Center(child: Text("No programs found."));
+              }
+            },
+          ),
         ),
       ],
     );

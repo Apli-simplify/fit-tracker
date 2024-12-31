@@ -20,12 +20,13 @@ class HomeTab extends StatelessWidget {
               const Text(
                 "Activity Status",
                 style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 16,
-                    fontWeight: FontWeight.w700),
+                  color: Colors.black,
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
               SizedBox(height: media.width * 0.02),
-              _buildStatsCard(media),
+              _buildStatsGrid(media), // Use a grid for statistics
               SizedBox(height: media.width * 0.05),
               _buildWorkoutSection(media),
             ],
@@ -35,39 +36,92 @@ class HomeTab extends StatelessWidget {
     );
   }
 
-  Widget _buildStatsCard(Size media) {
-    return Column(
-      children: [
+  Widget _buildStatsGrid(Size media) {
+    return GridView.count(
+      shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
+      crossAxisCount: 2,
+      crossAxisSpacing: 15,
+      mainAxisSpacing: 15,
+      childAspectRatio: 1, // Adjust the aspect ratio of the cards
+      children: const [
         StatisticCard(
-            label: "Calories Burned", value: "2000 kcal", media: media),
-        SizedBox(height: media.width * 0.05),
-        StatisticCard(label: "Steps Taken", value: "5000 steps", media: media),
-        SizedBox(height: media.width * 0.05),
-        StatisticCard(label: "Workout Time", value: "45 mins", media: media),
-        SizedBox(height: media.width * 0.05),
-        StatisticCard(label: "Active Minutes", value: "30 mins", media: media),
+          label: "Calories Burned",
+          value: "2000 kcal",
+          icon: Icons.local_fire_department,
+          gradient: LinearGradient(
+            colors: [Colors.orange, Colors.red],
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+          ),
+        ),
+        StatisticCard(
+          label: "Steps Taken",
+          value: "5000 steps",
+          icon: Icons.directions_walk,
+          gradient: LinearGradient(
+            colors: [Colors.blue, Colors.lightBlue],
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+          ),
+        ),
+        StatisticCard(
+          label: "Workout Time",
+          value: "45 mins",
+          icon: Icons.timer,
+          gradient: LinearGradient(
+            colors: [Colors.purple, Colors.pink],
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+          ),
+        ),
+        StatisticCard(
+          label: "Active Minutes",
+          value: "30 mins",
+          icon: Icons.fitness_center,
+          gradient: LinearGradient(
+            colors: [Colors.green, Colors.lightGreen],
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+          ),
+        ),
       ],
     );
   }
 
   Widget _buildWorkoutSection(Size media) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        const Text(
-          "Latest Workout",
-          style: TextStyle(
-              color: Colors.black, fontSize: 16, fontWeight: FontWeight.w700),
+    return Card(
+      elevation: 4,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(12),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            const Text(
+              "Latest Workout",
+              style: TextStyle(
+                color: Colors.black,
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            TextButton(
+              onPressed: onSeeMoreTap,
+              child: const Text(
+                "See More",
+                style: TextStyle(
+                  color: Colors.blue,
+                  fontSize: 14,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+          ],
         ),
-        TextButton(
-          onPressed: onSeeMoreTap,
-          child: const Text(
-            "See More",
-            style: TextStyle(
-                color: Colors.grey, fontSize: 14, fontWeight: FontWeight.w700),
-          ),
-        ),
-      ],
+      ),
     );
   }
 }

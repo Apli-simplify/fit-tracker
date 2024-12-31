@@ -6,7 +6,7 @@ import 'package:client_flutter/common_widget/bottom_navigation.dart';
 
 class HomePageAthlete extends StatefulWidget {
   final Map<String, dynamic> data;
-  HomePageAthlete({Key? key, required this.data}) : super(key: key);
+  const HomePageAthlete({super.key, required this.data});
 
   @override
   State<HomePageAthlete> createState() => _HomeViewState();
