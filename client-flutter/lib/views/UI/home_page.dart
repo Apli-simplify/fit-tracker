@@ -29,12 +29,12 @@ class HomePage extends StatelessWidget {
         automaticallyImplyLeading: false,
         actions: [
           IconButton(
-            icon: const Icon(Icons.exit_to_app),
+            icon: Icon(Icons.exit_to_app, color: Colors.white),
             onPressed: () async {
               await SharedPreferencesHelper.clearTokens();
               Navigator.pushNamed(context, '/login');
             },
-          ),
+          )
         ],
       ),
       body: FutureBuilder<Map<String, dynamic>>(

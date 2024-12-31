@@ -16,6 +16,7 @@ class _ExerciseDetailsState extends State<ExerciseDetails> {
   bool isStarted = false;
   int remainingTime = 0;
   Timer? _timer;
+  bool _isDescriptionExpanded = false; // Track if description is expanded
 
   @override
   void initState() {
@@ -104,6 +105,8 @@ class _ExerciseDetailsState extends State<ExerciseDetails> {
               icon: Icons.description,
               label: "Description",
               value: widget.exercise.description ?? 'N/A',
+              isExpandable:
+                  true, // Enable expandable functionality for description
             ),
             const SizedBox(height: 10),
             if (widget.exercise.duration != null)
@@ -174,8 +177,12 @@ class _ExerciseDetailsState extends State<ExerciseDetails> {
     );
   }
 
-  Widget _buildDetailCard(
-      {required IconData icon, required String label, required String value}) {
+  Widget _buildDetailCard({
+    required IconData icon,
+    required String label,
+    required String value,
+    bool isExpandable = false, // Add this parameter
+  }) {
     return Card(
       elevation: 2,
       shape: RoundedRectangleBorder(
@@ -188,27 +195,60 @@ class _ExerciseDetailsState extends State<ExerciseDetails> {
           children: [
             Icon(icon, color: Colors.black87),
             const SizedBox(width: 10),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  label,
-                  style: const TextStyle(
-                    fontSize: 14,
-                    color: Colors.grey,
-                    fontWeight: FontWeight.bold,
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    label,
+                    style: const TextStyle(
+                      fontSize: 14,
+                      color: Colors.grey,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
-                ),
-                const SizedBox(height: 4),
-                Text(
-                  value,
-                  style: const TextStyle(
-                    fontSize: 16,
-                    color: Colors.black87,
-                    fontWeight: FontWeight.bold,
+                  const SizedBox(height: 4),
+                  GestureDetector(
+                    onTap: isExpandable
+                        ? () {
+                            setState(() {
+                              _isDescriptionExpanded = !_isDescriptionExpanded;
+                            });
+                          }
+                        : null,
+                    child: Text(
+                      value,
+                      style: const TextStyle(
+                        fontSize: 16,
+                        color: Colors.black87,
+                        fontWeight: FontWeight.bold,
+                      ),
+                      maxLines:
+                          isExpandable && !_isDescriptionExpanded ? 3 : null,
+                      overflow: isExpandable && !_isDescriptionExpanded
+                          ? TextOverflow.ellipsis
+                          : TextOverflow.clip,
+                    ),
                   ),
-                ),
-              ],
+                  if (isExpandable &&
+                      value.length >
+                          100) // Show "Read More" only if the text is long
+                    GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          _isDescriptionExpanded = !_isDescriptionExpanded;
+                        });
+                      },
+                      child: Text(
+                        _isDescriptionExpanded ? "Read Less" : "Read More",
+                        style: const TextStyle(
+                          color: Colors.blue,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                ],
+              ),
             ),
           ],
         ),
