@@ -5,7 +5,6 @@ import 'package:client_flutter/services/api_services.dart';
 import 'package:client_flutter/views/UI/Athlete/home_page_athlete.dart';
 import 'package:client_flutter/views/UI/Trainer/home_page_trainer.dart';
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class HomePage extends StatelessWidget {
   final ApiService apiService = ApiService(baseUrl: ApiConfig.baseUrl);

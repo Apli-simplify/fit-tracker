@@ -4,6 +4,7 @@ import org.server.workout.config.Authentication.AuthenticationResponse;
 import org.server.workout.dto.AthleteDto;
 import org.server.workout.dto.UserDto;
 import org.server.workout.exceptions.specifics.ResourceAlreadyExistException;
+import org.server.workout.exceptions.specifics.ResourceNotFoundException;
 import org.server.workout.service.interfaces.AthleteService;
 import org.server.workout.service.interfaces.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +36,24 @@ public class AthleteController {
         } catch (Exception e) {
             return ResponseEntity.status(400).body(Map.of(
                     "message", "Error during registration",
+                    "error", e.getMessage()
+            ));
+        }
+    }
+
+    @PutMapping("/update/{id}")
+    public ResponseEntity<?> updateAthlete(@PathVariable Long id, @RequestBody AthleteDto athleteDto) {
+        try {
+            athleteService.updateAthlete(id, athleteDto);
+            return ResponseEntity.ok(Map.of("message", "Athlete updated successfully"));
+        } catch (ResourceNotFoundException e) {
+            return ResponseEntity.status(404).body(Map.of(
+                    "message", "Athlete not found",
+                    "error", e.getMessage()
+            ));
+        } catch (Exception e) {
+            return ResponseEntity.status(400).body(Map.of(
+                    "message", "Error during update",
                     "error", e.getMessage()
             ));
         }

@@ -1,3 +1,4 @@
+import 'package:client_flutter/common/colo_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:client_flutter/models/Program.dart';
 import 'package:client_flutter/services/AthleteServices/athlete_services.dart';
@@ -41,7 +42,7 @@ class ProgramsTab extends StatelessWidget {
               );
             },
             style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.purple,
+              backgroundColor: TColor.primaryColor1,
               padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(10),

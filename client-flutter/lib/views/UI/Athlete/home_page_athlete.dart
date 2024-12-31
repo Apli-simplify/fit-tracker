@@ -32,7 +32,9 @@ class _HomeViewState extends State<HomePageAthlete> {
           HomeTab(onSeeMoreTap: () => _onItemTapped(1)),
           ProgramsTab(),
           MyPlansTab(),
-          ProfileTab(),
+          ProfileTab(
+            data: widget.data,
+          ),
         ],
       ),
       bottomNavigationBar: CustomBottomNavigationBar(
