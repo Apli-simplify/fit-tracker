@@ -1,0 +1,16 @@
+.form-group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1rem;
+}
+
+label {
+  color: #a6a6a6;
+  padding-bottom: 5px;
+}
+
+.left-side-bg {
+  background-image: url('/assets/gym/gym_athlete.jpg');
+  background-repeat: no-repeat;
+  background-size: cover;
+}
