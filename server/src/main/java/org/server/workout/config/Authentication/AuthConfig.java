@@ -41,6 +41,7 @@ public class AuthConfig {
                         req.requestMatchers("/api/users/signup","/api/users/signin")
                                 .permitAll()
                                 .requestMatchers("/api/athlete/signup").permitAll()
+                                .requestMatchers("/api/users/all").hasRole("ADMIN")
                                 .requestMatchers("/api/admin/**").hasRole("ADMIN")
                                 .requestMatchers("/api/athlete/**").hasRole("ATHLETE")
                                 .requestMatchers("/api/trainer/**").hasRole("TRAINER")
