@@ -1,1 +1,72 @@
-<p>admin-page works!</p>
+<div class="admin-container">
+    <h1>Admin Dashboard</h1>
+
+    <!-- Users Table -->
+    <mat-card class="section">
+        <h2>Users</h2>
+        <table mat-table [dataSource]="userDataSource" class="mat-elevation-z8">
+            @for (column of userColumns; track column) {
+            <ng-container [matColumnDef]="column">
+                <th mat-header-cell *matHeaderCellDef>{{ column }}</th>
+                <td mat-cell *matCellDef="let element">{{ element[column] }}</td>
+            </ng-container>
+            }
+            <tr mat-header-row *matHeaderRowDef="userColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: userColumns;"></tr>
+        </table>
+    </mat-card>
+
+    <!-- Add Program Section -->
+    <mat-card class="section">
+        <h2>Programs</h2>
+        <button mat-raised-button color="primary" (click)="openProgramDialog()">Add New Program</button>
+        <table mat-table [dataSource]="programDataSource" class="mat-elevation-z8">
+            @for (column of programColumns; track column) {
+            <ng-container [matColumnDef]="column">
+                <th mat-header-cell *matHeaderCellDef>{{ column }}</th>
+                <td mat-cell *matCellDef="let element">
+                    @if (column === 'image') {
+                    <img [src]="element[column]" alt="Program Image" style="max-width: 100px; max-height: 100px;">
+                    } @else if (column === 'exercises') {
+                    <ul>
+                        @for (exercise of element.exercises; track exercise) {
+                        <li>{{ exercise.name }}</li>
+                        }
+                    </ul>
+                    } @else {
+                    {{ element[column] }}
+                    }
+                </td>
+            </ng-container>
+            }
+            <tr mat-header-row *matHeaderRowDef="programColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: programColumns;"></tr>
+        </table>
+    </mat-card>
+
+    <!-- Add Exercise Section -->
+    <mat-card class="section">
+        <h2>Exercises</h2>
+        <button mat-raised-button color="primary" (click)="openExerciseDialog()">Add New Exercise</button>
+        <table mat-table [dataSource]="exerciseDataSource" class="mat-elevation-z8">
+            @for (column of exerciseColumns; track column) {
+            <ng-container [matColumnDef]="column">
+                <th mat-header-cell *matHeaderCellDef>{{ column }}</th>
+                <td mat-cell *matCellDef="let element">
+                    @if (column === 'videoUrl') {
+                    <video controls style="max-width: 200px; max-height: 150px;">
+                        <source [src]="element[column]" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                    } @else {
+                    {{ element[column] }}
+                    }
+                </td>
+            </ng-container>
+            }
+            <tr mat-header-row *matHeaderRowDef="exerciseColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: exerciseColumns;"></tr>
+        </table>
+    </mat-card>
+
+</div>
