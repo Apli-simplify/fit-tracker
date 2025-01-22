@@ -9,7 +9,8 @@ import { TrainerPageComponent } from './pages/trainer-page/trainer-page.componen
 import { AthletePageComponent } from './pages/athlete-page/athlete-page.component';
 
 export const routes: Routes = [
-    { path: 'home', component: HomePageComponent, title: 'Home Page' },
+    { path: '', component: LoginPageComponent, title: 'Home Page' },
+    // { path: 'home', component: HomePageComponent, title: 'Home Page' },
     { path: 'signup', component: RegisterPageComponent, title: 'Register Page' },
     { path: 'login', component: LoginPageComponent, title: 'Login Page' },
     { path: 'signup/athlete', component: RegisterAthletePageComponent },
